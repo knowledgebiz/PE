@@ -7,13 +7,15 @@ const QuantitativeObjective = require ('../models/quantitativeObjective')
 router.get('/objective', async (req, res) => {
 
     try{
+        console.log(QuantitativeObjective)
+        return res.send(await QuantitativeObjective.findAll())
+        console.log('asd')
         if (!req.query.objective && !req.query.id && !req.query.idAnswerType){
-
-            return res.send(await Competency.findAll())
+            return res.send(await QuantitativeObjective.findAll())
             
         }
-        if (req.query.idAnswerType){
-            return res.send(await QuantitativeObjective.findAll( { where: { id_answer_type: req.query.idAnswerType } } ))
+        if (req.query.idAnswerType != null){
+            return res.send(await QuantitativeObjective.findAll( { where: { id_answer_types: req.query.idAnswerType } } ))
         }
         res.send(await QuantitativeObjective.findAll( {where: { [Op.or]: [ { objective : { [Op.like]: '%'+req.query.objective+'%' } }, 
                                                             { id: req.query.id } ] }}))
@@ -28,22 +30,24 @@ router.post('/objective', async (req, res) => {
         if (!req.query.objective || !req.query.idAnswerType) {
             return res.status(400).send('Error: Quantitative objective, its answer type or both have not been sent.')
         }
+        console.log('vai ate aqui')
         let repeat = await QuantitativeObjective.findOne( { where: { objective: req.query.objective}})
-        if (repeat.objective === req.query.objective) {
+        console.log('vai ate aqui')
+        if (repeat && repeat != null && repeat.objective === req.query.objective) {
             return res.status(409).send('Quantitative objective already exists')
         }
         const quantitativeObjective = await QuantitativeObjective.create({
             objective: req.query.objective,
-            id_answer_type: req.query.idAnswerType
+            id_answer_types: req.query.idAnswerType
         })
-        res.status(201).send(comp.objective)
+        res.status(201).send(quantitativeObjective.objective)
     }
     catch {
         res.status(500).send()
     }
 })
 
-router.put('/objective', async (req, res) => {
+router.patch('/objective', async (req, res) => {
     try {
         if (!req.query.objective || !req.query.id) {
             return res.status(400).send('You must send the ID of the objective and its new value.')
@@ -51,14 +55,16 @@ router.put('/objective', async (req, res) => {
         let repeat = await QuantitativeObjective.findOne( { where: { objective: req.query.objective}})
 
         if (repeat != null && repeat.objective === req.query.objective) {
-            return res.status(409).send('Quantitative objective already exists')
+            if (!req.query.idAnswerType || req.query.idAnswerType == repeat.id_answer_types) {
+            return res.status(409).send('Quantitative objective already exists') }
         }
-        if (!req.query.idAnswerType || !req.query.idAnswerType === null){
+
+        if (!req.query.idAnswerType){
             await QuantitativeObjective.update({ objective: req.query.objective }, { where: {id: req.query.id } })
         }
         else {
-            if (await QuantitativeObjective.findOne( { where: { id_answer_type: req.query.idAnswerType } }) != null){
-                await QuantitativeObjective.update( { objective: req.query.objective, id_answer_type: req.query.idAnswerType }, 
+            if (await QuantitativeObjective.findOne( { where: { id_answer_types: req.query.idAnswerType } }) != null){
+                await QuantitativeObjective.update( { objective: req.query.objective, id_answer_types: req.query.idAnswerType }, 
                                                         { where: { id: req.query.id} })
             }
             else {

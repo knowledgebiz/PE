@@ -41,7 +41,7 @@ router.post('/evaluationModel', async (req, res) => {
     }
 })
 
-router.put('/evaluationModel', async (req, res) => {
+router.patch('/evaluationModel', async (req, res) => {
     try {
         if (!req.query.title || !req.query.id) {
             return res.status(400).send('You must send the ID of the evaluation model and its new title')

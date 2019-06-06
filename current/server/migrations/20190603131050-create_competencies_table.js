@@ -12,7 +12,8 @@ module.exports = {
       },
       competency: {
           type: Sequelize.STRING(50),
-          allownull: false
+          allowNull: true,
+          unique: true
       },
       id_answer_types: {
         type: Sequelize.INTEGER,

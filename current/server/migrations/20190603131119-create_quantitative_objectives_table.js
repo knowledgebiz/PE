@@ -12,7 +12,8 @@ module.exports = {
       },
       objective: {
           type: Sequelize.STRING(50),
-          allownull: false
+          allowNull: false,
+          unique: true
       },
       id_answer_types: {
         type: Sequelize.INTEGER,
