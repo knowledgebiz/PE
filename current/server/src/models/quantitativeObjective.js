@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-const quantitativeObjective = sequelize.define('quantitive_objectives', {
+const quantitativeObjective = sequelize.define('quantitative_objectives', {
     id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -9,9 +9,13 @@ const quantitativeObjective = sequelize.define('quantitive_objectives', {
     },
     objective: {
         type: Sequelize.STRING(50),
-        allownull: false
+        allowNull: false
     },
     id_answer_types: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    id_quantitative_objective_types: {
         type: Sequelize.INTEGER,
         allowNull: false
     }

@@ -17,13 +17,22 @@ module.exports = {
       },
       createdAt: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
-      updatedAt: Sequelize.DATE,
+      updatedAt: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NULL ON UPDATE CURRENT_TIMESTAMP')
+      },
       active: {
           type: Sequelize.BOOLEAN,
           allowNull: false,
           defaultValue: false
+      },
+      id_evaluation_cycles: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: true
       }
     })
   },

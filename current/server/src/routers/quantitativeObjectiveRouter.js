@@ -3,22 +3,35 @@ const router = express.Router()
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const QuantitativeObjective = require ('../models/quantitativeObjective')
+const AnswerType = require ('../models/answerType')
 
 router.get('/objective', async (req, res) => {
 
     try{
-        console.log(QuantitativeObjective)
-        return res.send(await QuantitativeObjective.findAll())
-        console.log('asd')
+
+        if(!req.query.objective){
+            req.query.objective = ''
+        }
+        if (!req.query.id) {
+            req.query.id = ''
+        }
+        if (!req.query.idAnswerType){
+            req.query.idAnswerType = ''
+        }
+
+
         if (!req.query.objective && !req.query.id && !req.query.idAnswerType){
             return res.send(await QuantitativeObjective.findAll())
             
         }
-        if (req.query.idAnswerType != null){
-            return res.send(await QuantitativeObjective.findAll( { where: { id_answer_types: req.query.idAnswerType } } ))
+        if (req.query.id) {
+            return res.send(await QuantitativeObjective.findOne( { where: {id: req.query.id } } ))
         }
-        res.send(await QuantitativeObjective.findAll( {where: { [Op.or]: [ { objective : { [Op.like]: '%'+req.query.objective+'%' } }, 
-                                                            { id: req.query.id } ] }}))
+        
+        if (!req.query.objective){
+            return res.send(await QuantitativeObjective.findAll( { where: {id_answer_types: req.query.idAnswerType}}))
+        }
+        res.send(await QuantitativeObjective.findAll( {where: { objective : { [Op.like]: '%'+req.query.objective+'%' } } } ))
     }
     catch {
         res.status(500).send()
@@ -30,20 +43,21 @@ router.post('/objective', async (req, res) => {
         if (!req.query.objective || !req.query.idAnswerType) {
             return res.status(400).send('Error: Quantitative objective, its answer type or both have not been sent.')
         }
-        console.log('vai ate aqui')
-        let repeat = await QuantitativeObjective.findOne( { where: { objective: req.query.objective}})
-        console.log('vai ate aqui')
-        if (repeat && repeat != null && repeat.objective === req.query.objective) {
-            return res.status(409).send('Quantitative objective already exists')
-        }
         const quantitativeObjective = await QuantitativeObjective.create({
             objective: req.query.objective,
             id_answer_types: req.query.idAnswerType
         })
         res.status(201).send(quantitativeObjective.objective)
     }
-    catch {
-        res.status(500).send()
+    catch (e){
+        if (!e.original){
+            return res.status(500).send('An internal error appears to have occurred.')
+        }
+        if (e.original.errno == 1062)
+        {
+            return res.status(409).send('Duplicate entry')
+        }
+        
     }
 })
 
@@ -52,18 +66,13 @@ router.patch('/objective', async (req, res) => {
         if (!req.query.objective || !req.query.id) {
             return res.status(400).send('You must send the ID of the objective and its new value.')
         }
-        let repeat = await QuantitativeObjective.findOne( { where: { objective: req.query.objective}})
-
-        if (repeat != null && repeat.objective === req.query.objective) {
-            if (!req.query.idAnswerType || req.query.idAnswerType == repeat.id_answer_types) {
-            return res.status(409).send('Quantitative objective already exists') }
-        }
 
         if (!req.query.idAnswerType){
             await QuantitativeObjective.update({ objective: req.query.objective }, { where: {id: req.query.id } })
         }
+        
         else {
-            if (await QuantitativeObjective.findOne( { where: { id_answer_types: req.query.idAnswerType } }) != null){
+            if (await AnswerType.findOne( { where: { id: req.query.idAnswerType } }) != null){
                 await QuantitativeObjective.update( { objective: req.query.objective, id_answer_types: req.query.idAnswerType }, 
                                                         { where: { id: req.query.id} })
             }
@@ -73,8 +82,15 @@ router.patch('/objective', async (req, res) => {
         }
         res.send()
     }
-    catch {
-        res.status(500).send()
+    catch (e){
+        if (!e.original){
+            return res.status(500).send('An internal error has occurred.')
+        }
+        if (e.original.errno == 1062)
+        {
+            return res.status(409).send('Duplicate entry')
+        }
+        
     }
 })
 

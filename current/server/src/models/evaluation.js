@@ -9,11 +9,11 @@ const evaluation = sequelize.define('evaluations', {
     },
     id_worker: {
         type: Sequelize.INTEGER,
-        allownull: false
+        allowNull: false
     },
     json: {
         type: Sequelize.TEXT,
-        allownull: false
+        allowNull: false
     },
     id_evaluation_models: {
         type: Sequelize.INTEGER,

@@ -16,6 +16,11 @@ const evaluationModel = sequelize.define('evaluation_models', {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false
+    },
+    id_evaluation_cycles: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: true
     }
 })
 

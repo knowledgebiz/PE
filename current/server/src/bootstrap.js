@@ -1,39 +1,22 @@
 module.exports = async () => {
-    const EvaluationModel = require('./models/evaluationModel')
-    const Evaluation = require('./models/evaluation')
-    const Competency = require('./models/competency')
-    const QuantitativeObjective = require('./models/quantitativeObjective')
-    const AnswerType = require('./models/answerType')
+    const models = require('./models')
 
-    EvaluationModel.hasMany(Evaluation, {as: "Evaluations", foreignKey: 'id_evaluation_models'})
-    Evaluation.belongsTo(EvaluationModel, {as: "EvaluationModel", foreignKey: 'id_evaluation_models'})
+    models.evaluationModel.hasMany(Evaluation, {as: "Evaluations", foreignKey: 'id_evaluation_models'})
+    models.evaluation.belongsTo(models.evaluationModel, {as: "EvaluationModel", foreignKey: 'id_evaluation_models'})
 
-    AnswerType.hasMany(QuantitativeObjective, {as: "QuantitativeObjectives", foreignKey: 'id_answer_types'})
-    QuantitativeObjective.belongsTo(AnswerType, {as: "AnswerType", foreignKey: 'id_answer_types'})
+    models.answerType.hasMany(models.quantitativeObjective, {as: "QuantitativeObjectives", foreignKey: 'id_answer_types'})
+    models.quantitativeObjective.belongsTo(models.answerType, {as: "AnswerType", foreignKey: 'id_answer_types'})
     
-    AnswerType.hasMany(Competency, {as: "Competencies", foreignKey: 'id_answer_types'})
-    Competency.belongsTo(AnswerType, {as: "AnswerType", foreignKey: 'id_answer_types'})
+    models.answerType.hasMany(models.competency, {as: "Competencies", foreignKey: 'id_answer_types'})
+    models.competency.belongsTo(models.answerType, {as: "AnswerType", foreignKey: 'id_answer_types'})
 
-    EvaluationModel.belongsToMany(QuantitativeObjective, {through: 'evalModelQuantObjective'})
-    QuantitativeObjective.belongsToMany(EvaluationModel, {through: 'evalModelQuantObjective'})
+    models.evaluationModel.belongsToMany(models.quantitativeObjective, {through: 'evalModelQuantObjective'})
+    models.quantitativeObjective.belongsToMany(models.evaluationModel, {through: 'evalModelQuantObjective'})
 
-    EvaluationModel.belongsToMany(Competency, {through: 'evalModelCompetency'})
-    Competency.belongsToMany(EvaluationModel, {through: 'evalModelCompetency'})
+    models.evaluationModel.belongsToMany(models.competency, {through: 'evalModelCompetency'})
+    models.competency.belongsToMany(models.evaluationModel, {through: 'evalModelCompetency'})
 
-//     const model = await EvaluationModel.create({
-//         title: 'First Model' 
-//     })
-//     .catch(errHandler)
+    models.quantObjectiveType.hasMany(models.quantitativeObjective, {as: "QuantitativeObjectives", foreignKey: 'id_quantitative_objective_types'})
+    models.quantitativeObjective.belongsTo(models.quantObjectiveType, {as: "QuantObjectiveType", foreignKey: 'id_quantitative_objective_types'})
 
-//     const evaluation = await Evaluation.create({ 
-//         id_worker: 1, 
-//         json: 'ola: "olaaa"', 
-//         id_evaluation_models: model.id
-//     })
-//     .catch(errHandler)
-
-//     const evaluations = await Evaluation.findAll({ where: {id_evaluation_models: 6} })
-//     .catch(errHandler)
-
-//     console.log('TESTE: ', evaluations)
 }

@@ -19,9 +19,13 @@ module.exports = {
       },
       createdAt: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
-      updatedAt: Sequelize.DATE,
+      updatedAt: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NULL ON UPDATE CURRENT_TIMESTAMP')
+      },
       id_evaluation_models: 
       {
           type: Sequelize.INTEGER,
