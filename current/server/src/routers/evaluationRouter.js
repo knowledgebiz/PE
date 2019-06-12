@@ -7,13 +7,22 @@ const Evaluation = require ('../models/evaluation')
 router.get('/evaluation', async (req, res) => {
 
     try{
-        if (!req.query.idWorker && !req.query.idEvaluationModel){
+        if (!req.query.idWorker && !req.query.idEvaluationModel && !req.query.id){
 
             return res.send(await Evaluation.findAll())
             
         }
-        res.send(await Evaluation.findAll( {where: { [Op.or]: [ { id_worker : req.query.idWorker },  
-                                            { id_evaluation_models: req.query.idEvaluationModel } ] }}))
+        if (req.query.id){
+            return res.send(await Evaluation.findOne( { where: { id: req.query.id } } ))
+        }
+        if (req.query.idWorker && req.query.idEvaluationModel) {
+            return res.send(await Evaluation.findAll( {where: { [Op.and]: [ { id_worker : req.query.idWorker },  
+                                                    { id_evaluation_models: req.query.idEvaluationModel } ] }}))
+        }
+        if (req.query.idWorker && !req.query.idEvaluationModel) {
+            return res.send(await Evaluation.findAll( { where: { id_worker: req.query.idWorker } } ))
+        }
+        res.send(await Evaluation.findAll( { where: { id_evaluation_models: req.query.idEvaluationModel } } ))
     }
     catch {
         res.status(500).send()
@@ -22,14 +31,14 @@ router.get('/evaluation', async (req, res) => {
 
 router.post('/evaluation', async (req, res) => {
     try {
-        if (!req.query.idWorker || !req.body.json || !req.query.idEvaluationModel) {
-            return res.status(400).send(`You must send the ID of the worker, the ID of the evaluation model and 
-                                            the evaluation itself in JSON format.`)
+        if (!req.body.idWorker || !req.body.json || !req.body.idEvaluationModel) {
+            return res.status(400).send('You must send the ID of the worker, the ID of the evaluation model and the evaluation itself in JSON format.')
         }
+
         await Evaluation.create({
-            id_worker: req.query.idWorker,
+            id_worker: req.body.idWorker,
             json: req.body.json,
-            id_evaluation_models: idEvaluationModel
+            id_evaluation_models: req.body.idEvaluationModel
         })
         res.status(201).send()
     }
@@ -40,13 +49,11 @@ router.post('/evaluation', async (req, res) => {
 
 router.patch('/evaluation', async (req, res) => {
     try {
-        if (!req.body.json || !req.query.id || !req.query.idWorker || !req.query.idEvaluationModel) {
-            return res.status(400).send(`You must send the ID of the evaluation, the ID of the worker, the ID of the evaluation model 
-                                            and the new evaluation in JSON format.`)
+        if (!req.body.json || !req.body.id || !req.body.idWorker || !req.body.idEvaluationModel) {
+            return res.status(400).send('You must send the ID of the evaluation, the ID of the worker, the ID of the evaluation model and the new evaluation in JSON format.')
         }
-        await Evaluation.update( { id_worker: req.query.idWorker, json: req.body.json, id_evaluation_models: req.query.idEvaluationModel }, 
-                                    { where: {id: req.query.id } })
-
+        await Evaluation.update( { id_worker: req.body.idWorker, json: req.body.json, id_evaluation_models: req.body.idEvaluationModel }, 
+                                    { where: {id: req.body.id } })
         res.send()
     }
     catch {

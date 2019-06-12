@@ -7,23 +7,49 @@ const EvaluationCycle = require ('../models/evaluationCycle')
 router.get('/evaluationCycle', async (req, res) => {
 
     try{
+        let errMessage = 'Evaluation cycle not found'
         if (!req.query.startDate && !req.query.endDate && !req.query.id){
 
-            return res.send(await EvaluationCycle.findAll())
+            const response = await EvaluationCycle.findAll()
+            if (response[0]) {
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
             
         }
-        if (!req.query.startDate && !req.query.endDate) {
-            return res.send(await EvaluationCycle.findOne( {where: { id: req.query.id  } }))
+
+        if (req.query.id) {
+            const response = await EvaluationCycle.findOne( {where: { id: req.query.id  } })
+            if (response) {
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
 
-        if(!req.query.startDate) {
-            (!req.query.startDate == '')
-        }
-        if(!req.query.endDate) {
-            (!req.query.endDate == '')
+        if (req.query.startDate && req.query.endDate){
+
+            
+            const response = await EvaluationCycle.findAll( { where: { [Op.and]:  {start_date: req.query.startDate, end_date: req.query.endDate }}})
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
+
         }
 
-        res.send(await EvaluationCycle.findAll( { where: { [Op.or]:  {start_date: req.query.startDate, end_date: req.query.endDate} } } ) )
+        if (req.query.startDate && !req.query.endDate) {
+
+            const response = await EvaluationCycle.findAll( { where: { start_date: req.query.startDate } } )
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
+        }
+        const response = await EvaluationCycle.findAll( { where: { end_date: req.query.endDate } } )
+        if (response[0]) {
+            return res.send(response)
+        }
+        res.status(404).send(errMessage)
     }
     catch {
         res.status(500).send()
@@ -32,17 +58,17 @@ router.get('/evaluationCycle', async (req, res) => {
 
 router.post('/evaluationCycle', async (req, res) => {
     try {
-        if (!req.query.startDate || !req.query.endDate) {
+        if (!req.body.startDate || !req.body.endDate) {
             return res.status(400).send('You must send the start date and end date of the cycle')
         }
-        let repeat = await EvaluationCycle.findOne( { where: { [Op.and]: {start_date: req.query.startDate, end_date: req.query.endDate } }})
+        let repeat = await EvaluationCycle.findOne( { where: { [Op.and]: {start_date: req.body.startDate, end_date: req.body.endDate } }})
 
         if (repeat != null) {
             return res.status(409).send('A cycle with those exact dates already exists')
         }
         const evaluationCycle = await EvaluationCycle.create({
-            start_date: req.query.startDate,
-            end_date: req.query.endDate
+            start_date: req.body.startDate,
+            end_date: req.body.endDate
         })
         res.status(201).send('Start date: ' + evaluationCycle.start_date + '\nEnd date: ' + evaluationCycle.end_date)
     }
@@ -51,18 +77,21 @@ router.post('/evaluationCycle', async (req, res) => {
     }
 })
 
-router.patch('/answerType', async (req, res) => {
+router.patch('/evaluationCycle', async (req, res) => {
     try {
-        if (!req.query.type || !req.query.id) {
-            return res.status(400).send('You must send the ID of the answer type and its new type')
+        if (!req.body.startDate || !req.body.endDate || !req.body.id) {
+            return res.status(400).send('You must send the ID of the cycle and its new dates')
         }
-        let repeat = await AnswerType.findOne( { where: { type: req.query.type}})
+        console.log(req.body.startDate)
+        console.log(req.body.endDate)
 
-        if (repeat != null && repeat.type === req.query.type) {
-            return res.status(409).send('Type already exists')
+        let repeat = await EvaluationCycle.findOne( { where: { [Op.and]: { start_date: req.body.startDate, end_date: req.body.endDate } } } )
+
+        if (repeat != null) {
+            return res.status(409).send('Cycle already exists')
         }
 
-        await AnswerType.update( { type: req.query.type }, { where: { id: req.query.id } })
+        await EvaluationCycle.update( { start_date: req.body.startDate, end_date: req.body.endDate }, { where: { id: req.body.id } })
         res.send()
     }
     catch {

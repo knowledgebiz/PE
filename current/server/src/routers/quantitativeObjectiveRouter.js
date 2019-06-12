@@ -9,18 +9,7 @@ router.get('/objective', async (req, res) => {
 
     try{
 
-        if(!req.query.objective){
-            req.query.objective = ''
-        }
-        if (!req.query.id) {
-            req.query.id = ''
-        }
-        if (!req.query.idAnswerType){
-            req.query.idAnswerType = ''
-        }
-
-
-        if (!req.query.objective && !req.query.id && !req.query.idAnswerType){
+        if (!req.query.objective && !req.query.id && !req.query.idAnswerType && !req.query.idObjectiveType){
             return res.send(await QuantitativeObjective.findAll())
             
         }
@@ -28,10 +17,19 @@ router.get('/objective', async (req, res) => {
             return res.send(await QuantitativeObjective.findOne( { where: {id: req.query.id } } ))
         }
         
-        if (!req.query.objective){
-            return res.send(await QuantitativeObjective.findAll( { where: {id_answer_types: req.query.idAnswerType}}))
+        if (req.query.objective){
+            return res.send(await QuantitativeObjective.findAll( {where: { objective : { [Op.like]: '%'+req.query.objective+'%' } } } ))
+            
         }
-        res.send(await QuantitativeObjective.findAll( {where: { objective : { [Op.like]: '%'+req.query.objective+'%' } } } ))
+        if (req.query.idAnswerType && req.query.idObjectiveType){
+            return res.send(await QuantitativeObjective.findAll( { where: { [Op.and]: {id_answer_types: req.query.idAnswerType,
+                                                                    id_quantitative_objective_types: req.query.idObjectiveType } } } ))
+        }
+        if (req.query.idAnswerType && !req.query.idObjectiveType){
+            return res.send(await QuantitativeObjective.findAll( { where: { id_answer_types: req.query.idAnswerType} }))
+        }
+        res.send(await QuantitativeObjective.findAll( { where: { id_quantitative_objective_types: req.query.idObjectiveType } } ))
+        
     }
     catch {
         res.status(500).send()
@@ -40,12 +38,13 @@ router.get('/objective', async (req, res) => {
 
 router.post('/objective', async (req, res) => {
     try {
-        if (!req.query.objective || !req.query.idAnswerType) {
-            return res.status(400).send('Error: Quantitative objective, its answer type or both have not been sent.')
+        if (!req.body.objective || !req.body.idAnswerType || !req.body.idObjectiveType) {
+            return res.status(400).send('Error: You must send the objective, its answer type and objective type.')
         }
         const quantitativeObjective = await QuantitativeObjective.create({
-            objective: req.query.objective,
-            id_answer_types: req.query.idAnswerType
+            objective: req.body.objective,
+            id_answer_types: req.body.idAnswerType,
+            id_quantitative_objective_types: req.body.idObjectiveType
         })
         res.status(201).send(quantitativeObjective.objective)
     }
@@ -57,24 +56,28 @@ router.post('/objective', async (req, res) => {
         {
             return res.status(409).send('Duplicate entry')
         }
+        if (e.original.errno == 1452)
+        {
+            return res.status(409).send('Answer type or objective type not found')
+        }
         
     }
 })
 
 router.patch('/objective', async (req, res) => {
     try {
-        if (!req.query.objective || !req.query.id) {
+        if (!req.body.objective || !req.body.id) {
             return res.status(400).send('You must send the ID of the objective and its new value.')
         }
 
-        if (!req.query.idAnswerType){
-            await QuantitativeObjective.update({ objective: req.query.objective }, { where: {id: req.query.id } })
+        if (!req.body.idAnswerType){
+            await QuantitativeObjective.update({ objective: req.body.objective }, { where: {id: req.body.id } })
         }
         
         else {
-            if (await AnswerType.findOne( { where: { id: req.query.idAnswerType } }) != null){
-                await QuantitativeObjective.update( { objective: req.query.objective, id_answer_types: req.query.idAnswerType }, 
-                                                        { where: { id: req.query.id} })
+            if (await AnswerType.findOne( { where: { id: req.body.idAnswerType } }) != null){
+                await QuantitativeObjective.update( { objective: req.body.objective, id_answer_types: req.body.idAnswerType }, 
+                                                        { where: { id: req.body.id} })
             }
             else {
                 res.status(404).send('Answer type not found')
@@ -89,6 +92,10 @@ router.patch('/objective', async (req, res) => {
         if (e.original.errno == 1062)
         {
             return res.status(409).send('Duplicate entry')
+        }
+        if (e.original.errno == 1452)
+        {
+            return res.status(409).send('Answer type not found')
         }
         
     }
