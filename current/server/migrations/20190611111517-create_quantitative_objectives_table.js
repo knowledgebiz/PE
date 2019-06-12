@@ -19,7 +19,12 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: { model: 'answer_types', key: 'id'}
-      }
+      },
+      id_quantitative_objective_types: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {model: 'quantitative_objective_types', key: 'id'}
+    }
     })
 
   },
