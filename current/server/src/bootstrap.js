@@ -1,7 +1,10 @@
 module.exports = async () => {
     const models = require('./models')
 
-    models.evaluationModel.hasMany(Evaluation, {as: "Evaluations", foreignKey: 'id_evaluation_models'})
+    models.evaluationCycle.hasOne(models.evaluationModel, {as: "EvaluationModel", foreignKey: 'id_evaluation_cycles'})
+    models.evaluationModel.belongsTo(models.evaluationCycle, {as: "EvaluationCycle", foreignKey: 'id_evaluation_cycles'})
+
+    models.evaluationModel.hasMany(models.evaluation, {as: "Evaluations", foreignKey: 'id_evaluation_models'})
     models.evaluation.belongsTo(models.evaluationModel, {as: "EvaluationModel", foreignKey: 'id_evaluation_models'})
 
     models.answerType.hasMany(models.quantitativeObjective, {as: "QuantitativeObjectives", foreignKey: 'id_answer_types'})
