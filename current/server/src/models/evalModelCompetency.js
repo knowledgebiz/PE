@@ -14,5 +14,6 @@ const evalModelCompetency = sequelize.define('eval_models_has_competencies', {
 }, {
     timestamps: false
 })
+evalModelCompetency.removeAttribute('id')
 
 module.exports = evalModelCompetency

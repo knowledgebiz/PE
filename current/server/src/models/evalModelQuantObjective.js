@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-const evalModelQuantObjective = sequelize.define('eval_models_has_competencies', {
+const evalModelQuantObjective = sequelize.define('eval_models_has_quant_objectives', {
     id_evaluation_models: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -14,5 +14,7 @@ const evalModelQuantObjective = sequelize.define('eval_models_has_competencies',
 }, {
     timestamps: false
 })
+
+evalModelQuantObjective.removeAttribute('id')
 
 module.exports = evalModelQuantObjective
