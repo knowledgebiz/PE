@@ -8,17 +8,34 @@ const AnswerType = require ('../models/answerType')
 router.get('/competency', async (req, res) => {
 
     try{
-        
+        const errMessage = 'Competency not found.'
         if (!req.query.competency && !req.query.id && !req.query.idAnswerType){
-            return res.send(await Competency.findAll())
+            const response = await Competency.findAll()
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
         if (req.query.id) {
-            return res.send(await Competency.findOne( { where: {id: req.query.id } } ))
+            const response = await Competency.findOne( { where: {id: req.query.id } } )
+            if (response){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
         if (req.query.competency){
-            return res.send( await Competency.findAll( {where: { competency : { [Op.like]: '%'+req.query.competency+'%' } } } ))
+            const response = await Competency.findAll( {where: { competency : { [Op.like]: '%'+req.query.competency+'%' } } } )
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
-        res.send( await Competency.findAll( { where: { id_answer_types: req.query.idAnswerType } } ))
+        const response = await Competency.findAll( { where: { id_answer_types: req.query.idAnswerType } } )
+        if (response[0]){
+            return res.send(response)
+        }
+        res.status(404).send(errMessage)
+        
     }
     catch {
         res.status(500).send()
@@ -37,7 +54,8 @@ router.post('/competency', async (req, res) => {
         res.status(201).send(comp.competency)
     }
     catch (e){
-        if (!e.original) {
+        if( !e.original )
+        {
             return res.status(500).send('An internal error has occurred.')
         }
         if (e.original.errno == 1062)
@@ -47,7 +65,8 @@ router.post('/competency', async (req, res) => {
         if(e.original.errno == 1452) {
             return res.status(404).send('Answer type not found')
         }
-        return res.status(500).send('An error has occurred.')
+        res.status(500).send('An internal error has occurred.')
+        
     }
 })
 
@@ -79,6 +98,7 @@ router.patch('/competency', async (req, res) => {
         {
             return res.status(409).send('Duplicate entry')
         }
+        res.status(500).send('An internal error has occurred.')
         
     }
 })

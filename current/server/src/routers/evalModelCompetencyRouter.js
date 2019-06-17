@@ -7,17 +7,34 @@ const EvalModelCompetency = require ('../models/evalModelCompetency')
 router.get('/evalModelCompetency', async (req, res) => {
 
     try{
+        let errMessage = 'Relation not found'
         if (!req.query.idModel && !req.query.idCompetency){
-            return res.send(await EvalModelCompetency.findAll())
+            const response = await EvalModelCompetency.findAll()
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
         if (req.query.idModel && req.query.idCompetency){
-            return res.send(await EvalModelCompetency.findAll( {where: { [Op.and]: [ { id_evaluation_models : req.query.idModel } , 
-                                                                { id_competencies: req.query.idCompetency } ] } } ))
+            const response = await EvalModelCompetency.findAll( {where: { [Op.and]: [ { id_evaluation_models : req.query.idModel } , 
+                { id_competencies: req.query.idCompetency } ] } } )
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
         if(req.query.idModel && !req.query.idCompetency){
-            return res.send(await EvalModelCompetency.findAll( { where: { id_evaluation_models: req.query.idModel } } ))
+            const response = await EvalModelCompetency.findAll( { where: { id_evaluation_models: req.query.idModel } } )
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
-        res.send(await EvalModelCompetency.findAll( { where: { id_competencies: req.query.idCompetency } } ))
+        const response = await EvalModelCompetency.findAll( { where: { id_competencies: req.query.idCompetency } } )
+        if (response[0]){
+            return res.send(response)
+        }
+        res.status(404).send(errMessage)
     }
     catch {
         res.status(500).send()

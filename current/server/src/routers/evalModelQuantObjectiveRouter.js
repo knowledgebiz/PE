@@ -7,17 +7,34 @@ const EvalModelQuantObjective = require ('../models/evalModelQuantObjective')
 router.get('/evalModelQuantObjective', async (req, res) => {
 
     try{
+        let errMessage = 'Relation not found'
         if (!req.query.idModel && !req.query.idObjective){
-            return res.send(await EvalModelQuantObjective.findAll())
+            const response = await EvalModelQuantObjective.findAll()
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
         if (req.query.idModel && req.query.idObjective){
-            return res.send(await EvalModelQuantObjective.findAll( {where: { [Op.and]: [ { id_evaluation_models : req.query.idModel } , 
-                                                                { id_quantitative_objectives: req.query.idObjective } ] } } ))
+            const response = await EvalModelQuantObjective.findAll( {where: { [Op.and]: [ { id_evaluation_models : req.query.idModel } , 
+                { id_quantitative_objectives: req.query.idObjective } ] } } )
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
         if(req.query.idModel && !req.query.idObjective){
-            return res.send(await EvalModelQuantObjective.findAll( { where: { id_evaluation_models: req.query.idModel } } ))
+            const response = await EvalModelQuantObjective.findAll( { where: { id_evaluation_models: req.query.idModel } } )
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
-        res.send(await EvalModelQuantObjective.findAll( { where: { id_quantitative_objectives: req.query.idObjective } } ))
+        const response = await EvalModelQuantObjective.findAll( { where: { id_quantitative_objectives: req.query.idObjective } } )
+        if (response[0]){
+            return res.send(response)
+        }
+        res.status(404).send(errMessage)
     }
     catch {
         res.status(500).send()

@@ -7,22 +7,41 @@ const Evaluation = require ('../models/evaluation')
 router.get('/evaluation', async (req, res) => {
 
     try{
+        const errMessage = 'Evaluation not found'
         if (!req.query.idWorker && !req.query.idEvaluationModel && !req.query.id){
-
-            return res.send(await Evaluation.findAll())
-            
+            const response = await Evaluation.findAll()
+            if (response) {
+                return res.send(response)
+            }
+            return res.status(404).send()
         }
         if (req.query.id){
-            return res.send(await Evaluation.findOne( { where: { id: req.query.id } } ))
+            const response = await Evaluation.findOne( { where: { id: req.query.id } } )
+            if (response) {
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
         if (req.query.idWorker && req.query.idEvaluationModel) {
-            return res.send(await Evaluation.findAll( {where: { [Op.and]: [ { id_worker : req.query.idWorker },  
-                                                    { id_evaluation_models: req.query.idEvaluationModel } ] }}))
+            const response = await Evaluation.findAll( {where: { [Op.and]: [ { id_worker : req.query.idWorker },  
+                { id_evaluation_models: req.query.idEvaluationModel } ] }})
+            if (response){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
         if (req.query.idWorker && !req.query.idEvaluationModel) {
-            return res.send(await Evaluation.findAll( { where: { id_worker: req.query.idWorker } } ))
+            const response = await Evaluation.findAll( { where: { id_worker: req.query.idWorker } } )
+            if (response){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
-        res.send(await Evaluation.findAll( { where: { id_evaluation_models: req.query.idEvaluationModel } } ))
+        const response = await Evaluation.findAll( { where: { id_evaluation_models: req.query.idEvaluationModel } } )
+        if (response) {
+            return res.send(response)
+        }
+        res.status(404).send(errMessage)
     }
     catch {
         res.status(500).send()
@@ -42,8 +61,14 @@ router.post('/evaluation', async (req, res) => {
         })
         res.status(201).send()
     }
-    catch {
-        res.status(500).send()
+    catch (e) {
+        if (!e.original){
+            return res.status(500).send('An internal error appears to have occurred')
+        }
+        if (e.original.errno == 1452){
+            return res.status(404).send('Evaluation model not found')
+        }
+        res.status(500).send('An internal error appears to have occurred')
     }
 })
 

@@ -4,31 +4,56 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const QuantitativeObjective = require ('../models/quantitativeObjective')
 const AnswerType = require ('../models/answerType')
+const QuantObjectiveType = require ('../models/quantObjectiveType')
 
 router.get('/objective', async (req, res) => {
 
     try{
-
+        const errMessage = 'Quantitative objective not found'
         if (!req.query.objective && !req.query.id && !req.query.idAnswerType && !req.query.idObjectiveType){
-            return res.send(await QuantitativeObjective.findAll())
-            
+            const response = await QuantitativeObjective.findAll()
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
+
         if (req.query.id) {
-            return res.send(await QuantitativeObjective.findOne( { where: {id: req.query.id } } ))
+            const response = await QuantitativeObjective.findOne( { where: {id: req.query.id } } )
+            if (response){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
         
         if (req.query.objective){
-            return res.send(await QuantitativeObjective.findAll( {where: { objective : { [Op.like]: '%'+req.query.objective+'%' } } } ))
-            
+            const response = await QuantitativeObjective.findAll( {where: { objective : { [Op.like]: '%'+req.query.objective+'%' } } } )
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
+
         if (req.query.idAnswerType && req.query.idObjectiveType){
-            return res.send(await QuantitativeObjective.findAll( { where: { [Op.and]: {id_answer_types: req.query.idAnswerType,
-                                                                    id_quantitative_objective_types: req.query.idObjectiveType } } } ))
+            const response = await QuantitativeObjective.findAll( { where: { [Op.and]: {id_answer_types: req.query.idAnswerType,
+                id_quantitative_objective_types: req.query.idObjectiveType } } } )
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
         if (req.query.idAnswerType && !req.query.idObjectiveType){
-            return res.send(await QuantitativeObjective.findAll( { where: { id_answer_types: req.query.idAnswerType} }))
+            const response = await QuantitativeObjective.findAll( { where: { id_answer_types: req.query.idAnswerType} })
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
-        res.send(await QuantitativeObjective.findAll( { where: { id_quantitative_objective_types: req.query.idObjectiveType } } ))
+        const response = await QuantitativeObjective.findAll( { where: { id_quantitative_objective_types: req.query.idObjectiveType } } )
+        if (response[0]){
+            return res.send(response)
+        }
+        res.status(404).send(errMessage)
         
     }
     catch {
@@ -58,7 +83,7 @@ router.post('/objective', async (req, res) => {
         }
         if (e.original.errno == 1452)
         {
-            return res.status(409).send('Answer type or objective type not found')
+            return res.status(404).send('Answer type or objective type not found')
         }
         
     }
@@ -70,20 +95,32 @@ router.patch('/objective', async (req, res) => {
             return res.status(400).send('You must send the ID of the objective and its new value.')
         }
 
-        if (!req.body.idAnswerType){
+        if (!req.body.idAnswerType && !req.body.idObjectiveType){
             await QuantitativeObjective.update({ objective: req.body.objective }, { where: {id: req.body.id } })
+            return res.send('Updated objective')
         }
-        
-        else {
-            if (await AnswerType.findOne( { where: { id: req.body.idAnswerType } }) != null){
-                await QuantitativeObjective.update( { objective: req.body.objective, id_answer_types: req.body.idAnswerType }, 
-                                                        { where: { id: req.body.id} })
-            }
-            else {
-                res.status(404).send('Answer type not found')
-            }
+        let verAnswer = await AnswerType.findOne( { where:  { id: req.body.idAnswerType } } ) != null
+
+        let verObjective = await QuantObjectiveType.findOne( { where: {id: req.body.idObjectiveType} } )
+
+        if (verAnswer && !verObjective){
+            await QuantitativeObjective.update({ objective: req.body.objective, id_answer_types: req.body.idAnswerType }, 
+                                                        { where: {id: req.body.id } })
+            return res.send('Updated Answer Type')
         }
-        res.send()
+        if (!verAnswer && verObjective){
+            await QuantitativeObjective.update({ objective: req.body.objective, id_quantitative_objective_types: req.body.idObjectiveType },
+                                                        { where: {id: req.body.id } })
+            return res.send('Updated Objective Type')
+        }
+        if (verAnswer && verObjective) {
+            await QuantitativeObjective.update({ objective: req.body.objective, id_answer_types: req.body.idAnswerType,
+                 id_quantitative_objective_types: req.body.idObjectiveType },
+                { where: { id: req.body.id } })
+
+            return res.send('Objective updated')
+        }
+        res.status(404).send('Neither answer type nor objective type not found')
     }
     catch (e){
         if (!e.original){
@@ -92,10 +129,6 @@ router.patch('/objective', async (req, res) => {
         if (e.original.errno == 1062)
         {
             return res.status(409).send('Duplicate entry')
-        }
-        if (e.original.errno == 1452)
-        {
-            return res.status(409).send('Answer type not found')
         }
         
     }

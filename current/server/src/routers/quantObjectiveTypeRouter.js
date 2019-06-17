@@ -7,16 +7,28 @@ const QuantObjectiveType = require ('../models/quantObjectiveType')
 router.get('/objectiveType', async (req, res) => {
 
     try{
+        const errMessage = 'Quantitative objective type not found'
         if (!req.query.type && !req.query.id){
-
-            return res.send(await QuantObjectiveType.findAll())
+            const response = await QuantObjectiveType.findAll()
+            if (response[0]){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
             
         }
         if (req.query.id)
         {
-            return res.send(await QuantObjectiveType.findOne( { where: { id: req.query.id } } ) )
+            const response = await QuantObjectiveType.findOne( { where: { id: req.query.id } } ) 
+            if (response){
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
         }
-        res.send(await QuantObjectiveType.findAll( {where: { type : { [Op.like]: '%'+req.query.type+'%' } } } ))
+        const response = await QuantObjectiveType.findAll( {where: { type : { [Op.like]: '%'+req.query.type+'%' } } } )
+        if (response[0]) {
+            return res.send(response)
+        }
+        res.status(404).send(errMessage)
     }
     catch {
         res.status(500).send()
