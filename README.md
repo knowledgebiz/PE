@@ -731,6 +731,7 @@ Example:
 </table>
 
 #### POST - Create a quantitative objective type
+
 ##### Request
 
 POST /api/objectiveType<br>
@@ -739,9 +740,9 @@ Accept: application/json<br>
 X-Powered-By: Express<br>
 Access-Control-Allow-Origin: *<br>
 Content-Type: text/html; charset=utf-8<br>
-Content-Length: 12
-ETag: W/"c-skDWhQR/8dsv+EPcs4/6zeNCVGo"
-Date: Wed, 12 Jun 2019 15:01:05 GMT
+Content-Length: 12<br>
+ETag: W/"c-skDWhQR/8dsv+EPcs4/6zeNCVGo"<br>
+Date: Wed, 12 Jun 2019 15:01:05 GMT<br>
 Connection: keep-alive
 
     VALUE
@@ -912,6 +913,1781 @@ None
   <tr>
     <td>204</td>
     <td>Objective type deleted</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+<br><br>
+
+### evaluationModelRouter
+
+
+
+#### GET - Read Evaluation Models
+
+##### Request
+
+GET /api/evaluationModel<br>
+GET /api/evaluationModel?id=VALUE<br>
+GET /api/evaluationModel?model=VALUE<br>
+GET /api/evaluationModel?idCycle=VALUE<br>
+Accept: application/json
+<br><br>
+#### Response example:
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Type: application/json; charset=utf-8<br>
+Content-Length: 290<br>
+ETag: W/"122-Y/U7khcCOfrz9wnfD+mDZtmHxhg"<br>
+Date: Wed, 12 Jun 2019 14:56:36 GMT<br>
+Connection: keep-alive
+
+Example:
+   
+    {
+      "id": VALUE,
+      "model": VALUE,
+      "active": VALUE,
+      "id_evaluation_cycles": VALUE,
+      "createdAt": VALUE,
+      "updatedAt": VALUE"
+    }
+
+##### Query Parameters
+
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>No</td>
+    <td>Filter by model id</td>
+  </tr>
+  <tr>
+    <td>model</td>
+    <td>No</td>
+    <td>Filter by model name</td>
+  </tr>
+  <tr>
+    <td>idCycle</td>
+    <td>No</td>
+    <td>Filter models by their evaluation cycle id</td>
+  </tr>
+</table>
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+Example:
+
+
+    {
+        "id": 1,
+        "model": "Model",
+        "active": false,
+        "id_evaluation_cycles": 1,
+        "createdAt": "2019-06-12T09:26:47.000Z",
+        "updatedAt": "2019-06-12T09:26:47.000Z"
+    },
+    {
+        "id": 2,
+        "model": "Model2",
+        "active": false,
+        "id_evaluation_cycles": 2,
+        "createdAt": "2019-06-12T09:27:23.000Z",
+        "updatedAt": "2019-06-12T09:27:23.000Z"
+    }
+
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>Evaluation model found</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Evaluation model not found</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### POST - Create an evaluation model
+
+##### Request
+
+POST /api/evaluationModel<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Type: text/html; charset=utf-8<br>
+Content-Length: 7<br>
+ETag: W/"7-rXPLL8SBBvt3rad2CExQURRrtNo"<br>
+Date: Wed, 12 Jun 2019 15:01:05 GMT<br>
+Connection: keep-alive
+
+    VALUE
+
+##### Query Parameters
+
+None
+
+##### Transfer Payload
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Required</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>model</td>
+    <td>Yes</td>
+    <td>String</td>
+    <td>Name/Title of the evaluation model</td>
+  </tr>
+  <tr>
+    <td>idCycle</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>The evaluation model's evaluation cycle id</td>
+  </tr>
+</table>
+
+##### Return Payload
+
+Example:
+
+    Model2
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>201</td>
+    <td>Evaluation model created</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Evaluation cycle not found</td>
+  </tr>
+  <tr>
+    <td>409</td>
+    <td>Evaluation model already exists or a model already uses that evaluation cycle</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### PATCH - Update evaluation model
+
+##### Request
+
+PATCH /api/evaluationModel<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Date: Wed, 12 Jun 2019 15:04:41 GMT<br>
+Connection: keep-alive<br>
+Content-Length: 0
+
+##### Query Parameters
+
+None
+
+##### Transfer Payload
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Required</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>ID of the evaluation model</td>
+  </tr>
+  <tr>
+    <td>model</td>
+    <td>Yes</td>
+    <td>String</td>
+    <td>New model name</td>
+  </tr>
+  <tr>
+    <td>idCycle</td>
+    <td>No</td>
+    <td>Integer</td>
+    <td>New evaluation cycle's id</td>
+  </tr>
+</table>
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>Evaluation model updated</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>409</td>
+    <td>An evaluation model with this name or cycle already exists</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+
+#### PATCH - Deactivate or reactivate evaluation model
+
+##### Request
+
+PATCH /api/evaluationModel/ID<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Type: text/html; charset=utf-8
+Date: Wed, 12 Jun 2019 15:04:41 GMT<br>
+ETag: W/"1c-scBuYB0+8GgMshI72woI0UKxvPA"
+Content-Length: 28
+Connection: keep-alive<br>
+
+
+##### Query Parameters
+
+None
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+Evaluation model deactivated/reactivated
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>202</td>
+    <td>Evaluation model activated/deactivated</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Evaluation model not found</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+
+
+#### DELETE - Delete evaluation model
+
+##### Request
+
+DELETE /api/evaluationModel?id=VALUE<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Date: Wed, 12 Jun 2019 14:27:38 GMT<br>
+Connection: keep-alive
+
+##### Query Parameters
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>Yes</td>
+    <td>ID of the evaluation model to delete</td>
+  </tr>
+</table>
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table >
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>204</td>
+    <td>Evaluation model deleted</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+<br><br>
+
+### competencyRouter
+
+
+
+#### GET - Read competencies
+
+##### Request
+
+GET /api/competency<br>
+GET /api/competency?id=VALUE<br>
+GET /api/competency?competency=VALUE<br>
+GET /api/competency?idAnswerType=VALUE<br>
+Accept: application/json
+<br><br>
+#### Response example:
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Type: application/json; charset=utf-8<br>
+Content-Length: 56<br>
+ETag: W/"38-RaTRsYsi1dKnBYL/7zUTmEDf35Q"<br>
+Date: Wed, 12 Jun 2019 14:56:36 GMT<br>
+Connection: keep-alive
+
+Example:
+   
+    {
+      "id": VALUE,
+      "competency": VALUE,
+      "id_answer_types": VALUE"
+    }
+
+##### Query Parameters
+
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>No</td>
+    <td>Filter by competency id</td>
+  </tr>
+  <tr>
+    <td>competency</td>
+    <td>No</td>
+    <td>Filter by competency</td>
+  </tr>
+  <tr>
+    <td>idAnswerType</td>
+    <td>No</td>
+    <td>Filter competencies by their answer type id</td>
+  </tr>
+</table>
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+Example:
+
+
+    {
+        "id": 1,
+        "competency": "Competency",
+        "id_answer_types": 1
+    }
+
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>Competency found</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Competency not found</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### POST - Create a competency
+
+##### Request
+
+POST /api/competency<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Type: text/html; charset=utf-8<br>
+Content-Length: 10<br>
+ETag: W/"a-BeWbsO02CsXPzIXNuKMYTgRCdD8"<br>
+Date: Wed, 12 Jun 2019 15:01:05 GMT<br>
+Connection: keep-alive
+
+    VALUE
+
+##### Query Parameters
+
+None
+
+##### Transfer Payload
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Required</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>competency</td>
+    <td>Yes</td>
+    <td>String</td>
+    <td>The competency to create</td>
+  </tr>
+  <tr>
+    <td>idAnswerType</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>The competency's answer type's id</td>
+  </tr>
+</table>
+
+##### Return Payload
+
+Example:
+
+    Competency
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>201</td>
+    <td>Competency created</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Answer type not found</td>
+  </tr>
+  <tr>
+    <td>409</td>
+    <td>Competency already exists</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### PATCH - Update competency
+
+##### Request
+
+PATCH /api/competency<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Date: Wed, 12 Jun 2019 15:04:41 GMT<br>
+Connection: keep-alive<br>
+Content-Length: 0
+
+##### Query Parameters
+
+None
+
+##### Transfer Payload
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Required</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>ID of the competency</td>
+  </tr>
+  <tr>
+    <td>competency</td>
+    <td>Yes</td>
+    <td>String</td>
+    <td>New competency</td>
+  </tr>
+  <tr>
+    <td>idAnswerType</td>
+    <td>No</td>
+    <td>Integer</td>
+    <td>New answer type's id</td>
+  </tr>
+</table>
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>Competency updated</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>409</td>
+    <td>Competency already exists</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### DELETE - Delete competency
+
+##### Request
+
+DELETE /api/competency?id=VALUE<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Date: Wed, 12 Jun 2019 14:27:38 GMT<br>
+Connection: keep-alive
+
+##### Query Parameters
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>Yes</td>
+    <td>ID of the competency to delete</td>
+  </tr>
+</table>
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table >
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>204</td>
+    <td>Competency deleted</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+<br><br>
+
+### quantitativeObjectiveRouter
+
+
+
+#### GET - Read quantitative objectives
+
+##### Request
+
+GET /api/objective<br>
+GET /api/objective?id=VALUE<br>
+GET /api/objective?competency=VALUE<br>
+GET /api/objective?idAnswerType=VALUE<br>
+Accept: application/json
+<br><br>
+#### Response example:
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Type: application/json; charset=utf-8<br>
+Content-Length: 90<br>
+ETag: W/"5a-mgMFchKLG/HKl9FIfQWrSNvwT+4"<br>
+Date: Wed, 12 Jun 2019 14:56:36 GMT<br>
+Connection: keep-alive
+
+Example:
+   
+    {
+      "id": VALUE,
+      "objective": VALUE,
+      "id_answer_types": VALUE",
+      "id_quantitative_objective_types": VALUE
+    }
+
+##### Query Parameters
+
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>No</td>
+    <td>Filter by objective id</td>
+  </tr>
+  <tr>
+    <td>objective</td>
+    <td>No</td>
+    <td>Filter by objective</td>
+  </tr>
+  <tr>
+    <td>idAnswerType</td>
+    <td>No</td>
+    <td>Filter objectives by their answer type id</td>
+  </tr>
+  <tr>
+    <td>idObjectiveType</td>
+    <td>No</td>
+    <td>Filter objectives by their objective type id</td>
+  </tr>
+</table>
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+Example:
+
+
+    {
+        "id": 1,
+        "objective": "Objective",
+        "id_answer_types": 1,
+        "id_quantitative_objective_types": 1
+    }
+
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>Objective found</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Objective not found</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### POST - Create a quantitative objective
+
+##### Request
+
+POST /api/objective<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Type: text/html; charset=utf-8<br>
+Content-Length: 10<br>
+ETag: W/"a-ziEB1T55JXna04yTjE8MvFhHNuw"<br>
+Date: Wed, 12 Jun 2019 15:01:05 GMT<br>
+Connection: keep-alive
+
+    VALUE
+
+##### Query Parameters
+
+None
+
+##### Transfer Payload
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Required</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>objective</td>
+    <td>Yes</td>
+    <td>String</td>
+    <td>The objective to create</td>
+  </tr>
+  <tr>
+    <td>idAnswerType</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>The objective's answer type's id</td>
+  </tr>
+  <tr>
+    <td>idObjectiveType</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>The objective's objective type</td>
+  </tr>
+</table>
+
+##### Return Payload
+
+Example:
+
+    Objective
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>201</td>
+    <td>Objective created</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Answer type or objective type not found</td>
+  </tr>
+  <tr>
+    <td>409</td>
+    <td>Competency already exists</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### PATCH - Update quantitative objective
+
+##### Request
+
+PATCH /api/objective<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Date: Wed, 12 Jun 2019 15:04:41 GMT<br>
+Connection: keep-alive<br>
+Content-Length: 0
+
+##### Query Parameters
+
+None
+
+##### Transfer Payload
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Required</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>ID of the objective</td>
+  </tr>
+  <tr>
+    <td>objective</td>
+    <td>Yes</td>
+    <td>String</td>
+    <td>New objective</td>
+  </tr>
+  <tr>
+    <td>idAnswerType</td>
+    <td>No</td>
+    <td>Integer</td>
+    <td>New answer type's id</td>
+  </tr>
+  <tr>
+    <td>idObjectiveType</td>
+    <td>No</td>
+    <td>Integer</td>
+    <td>New objective type's id</td>
+  </tr>
+</table>
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>Quantitative objective updated</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Invalid answer type <b>and</b> objective type</td>
+  </tr>
+  <tr>
+    <td>409</td>
+    <td>Objective already exists</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### DELETE - Delete quantitative objective
+
+##### Request
+
+DELETE /api/objective?id=VALUE<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Date: Wed, 12 Jun 2019 14:27:38 GMT<br>
+Connection: keep-alive
+
+##### Query Parameters
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>Yes</td>
+    <td>ID of the objective to delete</td>
+  </tr>
+</table>
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table >
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>204</td>
+    <td>Objective deleted</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+<br><br>
+
+### evaluationRouter
+
+
+
+#### GET - Read evaluations
+
+##### Request
+
+GET /api/evaluation<br>
+GET /api/evaluation?id=VALUE<br>
+GET /api/evaluation?idWorker=VALUE<br>
+GET /api/evaluation?idEvaluationModel=VALUE<br>
+Accept: application/json
+<br><br>
+#### Response example:
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Type: application/json; charset=utf-8<br>
+Content-Length: 90<br>
+ETag: W/"5a-mgMFchKLG/HKl9FIfQWrSNvwT+4"<br>
+Date: Wed, 12 Jun 2019 14:56:36 GMT<br>
+Connection: keep-alive
+
+Example:
+   
+    {
+        "id": VALUE,
+        "id_worker": VALUE,
+        "json": VALUE,
+        "id_evaluation_models": VALUE,
+        "createdAt": VALUE,
+        "updatedAt": VALUE"
+    }
+
+##### Query Parameters
+
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>No</td>
+    <td>Filter by evaluation id</td>
+  </tr>
+  <tr>
+    <td>idWorker</td>
+    <td>No</td>
+    <td>Filter by the id of the evaluated worker</td>
+  </tr>
+  <tr>
+    <td>idEvaluationModel</td>
+    <td>No</td>
+    <td>Filter evaluations by their model's id</td>
+  </tr>
+</table>
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+Example:
+
+
+    {
+        "id": 1,
+        "id_worker": 1,
+        "json": "json_code",
+        "id_evaluation_models": 1,
+        "createdAt": "2019-06-12T15:45:03.000Z",
+        "updatedAt": "2019-06-12T15:45:03.000Z"
+    }
+
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>Evaluation found</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Evaluation not found</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### POST - Create an evaluation
+
+##### Request
+
+POST /api/evaluation<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Length: 0<br>
+Date: Wed, 12 Jun 2019 15:01:05 GMT<br>
+Connection: keep-alive
+
+##### Query Parameters
+
+None
+
+##### Transfer Payload
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Required</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>idWorker</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>The evaluated worker's id</td>
+  </tr>
+  <tr>
+    <td>idEvaluationModel</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>The id of the evaluation model used</td>
+  </tr>
+  <tr>
+    <td>json</td>
+    <td>Yes</td>
+    <td>Text</td>
+    <td>The evaluation file converted to JSON</td>
+  </tr>
+</table>
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>201</td>
+    <td>Evaluation created</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Evaluation model not found</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### PATCH - Update evaluation
+
+##### Request
+
+PATCH /api/evaluation<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Date: Wed, 12 Jun 2019 15:04:41 GMT<br>
+Connection: keep-alive<br>
+Content-Length: 0
+
+##### Query Parameters
+
+None
+
+##### Transfer Payload
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Required</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>ID of the evaluation</td>
+  </tr>
+  <tr>
+    <td>idWorker</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>Worker's id</td>
+  </tr>
+  <tr>
+    <td>idEvaluationModel</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>Evaluation model's id</td>
+  </tr>
+  <tr>
+    <td>json</td>
+    <td>Yes</td>
+    <td>Text</td>
+    <td>Updated evaluation converted to JSON</td>
+  </tr>
+</table>
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>Evaluation updated</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### DELETE - Delete quantitative objective
+
+##### Request
+
+DELETE /api/evaluation?id=VALUE<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Date: Wed, 12 Jun 2019 14:27:38 GMT<br>
+Connection: keep-alive
+
+##### Query Parameters
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>Yes</td>
+    <td>ID of the evaluation to delete</td>
+  </tr>
+</table>
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table >
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>204</td>
+    <td>Evaluation deleted</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+<br><br>
+
+### evalModelCompetencyRouter
+
+
+
+#### GET - Read relations between models and competencies
+
+##### Request
+
+GET /api/evalModelCompetency<br>
+GET /api/evalModelCompetency?idModel=VALUE<br>
+GET /api/evalModelCompetency?idCompetency=VALUE<br>
+Accept: application/json
+<br><br>
+#### Response example:
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Type: application/json; charset=utf-8<br>
+Content-Length: 48<br>
+ETag: W/"30-+Wx4Qyv25cFb4v/Pg0ADT+BCtDo"<br>
+Date: Wed, 12 Jun 2019 14:56:36 GMT<br>
+Connection: keep-alive
+
+Example:
+   
+    {
+        "id_evaluation_models": VALUE,
+        "id_competencies": VALUE
+    }
+
+##### Query Parameters
+
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>idModel</td>
+    <td>No</td>
+    <td>Filter by the id of the evaluation model</td>
+  </tr>
+  <tr>
+    <td>idCompetency</td>
+    <td>No</td>
+    <td>Filter by the id of the competency</td>
+  </tr>
+</table>
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+Example:
+
+
+    {
+        "id_evaluation_models": 1,
+        "id_competencies": 1
+    }
+
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>Relation found</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Relation not found</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### POST - Create a relation between a model and a competency
+
+
+##### Request
+POST /api/evalModelCompetency<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Length: 0<br>
+Date: Wed, 12 Jun 2019 15:01:05 GMT<br>
+Connection: keep-alive
+
+##### Query Parameters
+
+None
+
+##### Transfer Payload
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Required</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>idModel</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>The evaluation model's id</td>
+  </tr>
+  <tr>
+    <td>idCompetency</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>The competency's id</td>
+  </tr>
+</table>
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>201</td>
+    <td>Relation created</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>409</td>
+    <td>Relation already exists</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Evaluation model or competency not found</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+<br><br>
+
+### PATCH IS *NOT* USED.
+
+<br><br>
+
+#### DELETE - Delete relation
+
+##### Request
+
+DELETE /api/evalModelCompetency?idModel=VALUE&idCompetency=VALUE<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Date: Wed, 12 Jun 2019 14:27:38 GMT<br>
+Connection: keep-alive
+
+##### Query Parameters
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>idModel</td>
+    <td>Yes</td>
+    <td>ID of the evaluation model</td>
+  </tr>
+  <tr>
+    <td>idCompetency</td>
+    <td>Yes</td>
+    <td>ID of the competency</td>
+  </tr>
+</table>
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table >
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>204</td>
+    <td>Relation deleted</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+<br><br>
+
+### evalModelQuantObjectiveRouter
+
+
+
+#### GET - Read relations between models and quantitative objectives
+
+##### Request
+
+GET /api/evalModelQuantObjective<br>
+GET /api/evalModelQuantObjective?idModel=VALUE<br>
+GET /api/evalModelQuantObjective?idObjective=VALUE<br>
+Accept: application/json
+<br><br>
+#### Response example:
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Type: application/json; charset=utf-8<br>
+Content-Length: 48<br>
+ETag: W/"30-+Wx4Qyv25cFb4v/Pg0ADT+BCtDo"<br>
+Date: Wed, 12 Jun 2019 14:56:36 GMT<br>
+Connection: keep-alive
+
+Example:
+   
+    {
+        "id_evaluation_models": VALUE,
+        "id_quantitative_objectives": VALUE
+    }
+
+##### Query Parameters
+
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>idModel</td>
+    <td>No</td>
+    <td>Filter by the id of the evaluation model</td>
+  </tr>
+  <tr>
+    <td>idObjective</td>
+    <td>No</td>
+    <td>Filter by the id of the objective</td>
+  </tr>
+</table>
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+Example:
+
+
+    {
+        "id_evaluation_models": 1,
+        "id_quantitative_objectives": 1
+    }
+
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>200</td>
+    <td>Relation found</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Relation not found</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+
+#### POST - Create a relation between a model and a quantitative objective
+
+
+##### Request
+POST /api/evalModelQuantObjective<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Content-Length: 0<br>
+Date: Wed, 12 Jun 2019 15:01:05 GMT<br>
+Connection: keep-alive
+
+##### Query Parameters
+
+None
+
+##### Transfer Payload
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Required</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>idModel</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>The evaluation model's id</td>
+  </tr>
+  <tr>
+    <td>idCompetency</td>
+    <td>Yes</td>
+    <td>Integer</td>
+    <td>The competency's id</td>
+  </tr>
+</table>
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>201</td>
+    <td>Relation created</td>
+  </tr>
+  <tr>
+    <td>400</td>
+    <td>Required data field not sent</td>
+  </tr>
+  <tr>
+    <td>409</td>
+    <td>Relation already exists</td>
+  </tr>
+  <tr>
+    <td>404</td>
+    <td>Evaluation model or quantitative objective not found</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
+  </tr>
+</table>
+<br><br>
+
+### PATCH IS *NOT* USED.
+
+<br><br>
+
+#### DELETE - Delete relation
+
+##### Request
+
+DELETE /api/evalModelQuantObjective?idModel=VALUE&idObjective=VALUE<br>
+Accept: application/json<br>
+
+X-Powered-By: Express<br>
+Access-Control-Allow-Origin: *<br>
+Date: Wed, 12 Jun 2019 14:27:38 GMT<br>
+Connection: keep-alive
+
+##### Query Parameters
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>idModel</td>
+    <td>Yes</td>
+    <td>ID of the evaluation model</td>
+  </tr>
+  <tr>
+    <td>idObjective</td>
+    <td>Yes</td>
+    <td>ID of the quantitative objective</td>
+  </tr>
+</table>
+
+##### Transfer Payload
+
+None
+
+##### Return Payload
+
+None
+
+##### Return Codes
+
+<table >
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>204</td>
+    <td>Relation deleted</td>
   </tr>
   <tr>
     <td>400</td>
