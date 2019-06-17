@@ -7,7 +7,7 @@ const evaluationModel = sequelize.define('evaluation_models', {
         autoIncrement: true,
         primaryKey: true
     },
-    title: {
+    model: {
         type: Sequelize.STRING(45),
         unique: true,
         allowNull: false
