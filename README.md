@@ -7,7 +7,6 @@
 Make sure you have Node.js version 10.16.0 LTS installed. Sequelize does not work with the latest version, 12.4.0 Current.
 
 This module uses the following dependencies:
- - body-parser version 1.19.0;
  - cors version 2.8.5;
  - express version 4.17.1;
  - mysql2 version 1.6.5;
