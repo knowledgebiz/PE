@@ -7,7 +7,7 @@ const EvalModelQuantObjective = require ('../models/evalModelQuantObjective')
 router.get('/evalModelQuantObjective', async (req, res) => {
 
     try{
-        let errMessage = 'Relation not found'
+        const errMessage = 'Relation not found'
         if (!req.query.idModel && !req.query.idObjective){
             const response = await EvalModelQuantObjective.findAll()
             if (response[0]){
@@ -46,7 +46,7 @@ router.post('/evalModelQuantObjective', async (req, res) => {
         if (!req.body.idModel || !req.body.idObjective) {
             return res.status(400).send('You must send both the evaluation model ID and the objective ID')
         }
-        let repeat = await EvalModelQuantObjective.findOne( { where: { [Op.and]: [ {id_evaluation_models: req.body.idModel },
+        const repeat = await EvalModelQuantObjective.findOne( { where: { [Op.and]: [ {id_evaluation_models: req.body.idModel },
                                                              { id_quantitative_objectives: req.body.idObjective } ] } } )
         if (repeat != null) {
             return res.status(409).send('This model and objective are already linked.')
@@ -71,7 +71,7 @@ router.post('/evalModelQuantObjective', async (req, res) => {
 //         if (!req.body.idModel || !req.body.idObjective) {
 //             return res.status(400).send('You must send both the evaluation model ID and the objective ID')
 //         }
-//         let repeat = await EvalModelQuantObjective.findOne( { where: { [Op.and]: [ {id_evaluation_models: req.body.idModel },
+//         const repeat = await EvalModelQuantObjective.findOne( { where: { [Op.and]: [ {id_evaluation_models: req.body.idModel },
 //             { id_quantitative_objectives: req.body.idObjective } ] } } )
 
 //         if (repeat != null) {

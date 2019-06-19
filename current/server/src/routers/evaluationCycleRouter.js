@@ -7,7 +7,7 @@ const EvaluationCycle = require ('../models/evaluationCycle')
 router.get('/evaluationCycle', async (req, res) => {
 
     try{
-        let errMessage = 'Evaluation cycle not found'
+        const errMessage = 'Evaluation cycle not found'
         if (!req.query.startDate && !req.query.endDate && !req.query.id){
 
             const response = await EvaluationCycle.findAll()
@@ -61,7 +61,7 @@ router.post('/evaluationCycle', async (req, res) => {
         if (!req.body.startDate || !req.body.endDate) {
             return res.status(400).send('You must send the start date and end date of the cycle')
         }
-        let repeat = await EvaluationCycle.findOne( { where: { [Op.and]: {start_date: req.body.startDate, end_date: req.body.endDate } }})
+        const repeat = await EvaluationCycle.findOne( { where: { [Op.and]: {start_date: req.body.startDate, end_date: req.body.endDate } }})
 
         if (repeat != null) {
             return res.status(409).send('A cycle with those exact dates already exists')
@@ -82,10 +82,8 @@ router.patch('/evaluationCycle', async (req, res) => {
         if (!req.body.startDate || !req.body.endDate || !req.body.id) {
             return res.status(400).send('You must send the ID of the cycle and its new dates')
         }
-        console.log(req.body.startDate)
-        console.log(req.body.endDate)
 
-        let repeat = await EvaluationCycle.findOne( { where: { [Op.and]: { start_date: req.body.startDate, end_date: req.body.endDate } } } )
+        const repeat = await EvaluationCycle.findOne( { where: { [Op.and]: { start_date: req.body.startDate, end_date: req.body.endDate } } } )
 
         if (repeat != null) {
             return res.status(409).send('Cycle already exists')

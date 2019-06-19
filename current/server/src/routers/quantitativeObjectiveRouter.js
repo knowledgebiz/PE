@@ -99,9 +99,9 @@ router.patch('/objective', async (req, res) => {
             await QuantitativeObjective.update({ objective: req.body.objective }, { where: {id: req.body.id } })
             return res.send('Updated objective')
         }
-        let verAnswer = await AnswerType.findOne( { where:  { id: req.body.idAnswerType } } ) != null
+        const verAnswer = await AnswerType.findOne( { where:  { id: req.body.idAnswerType } } ) != null
 
-        let verObjective = await QuantObjectiveType.findOne( { where: {id: req.body.idObjectiveType} } )
+        const verObjective = await QuantObjectiveType.findOne( { where: {id: req.body.idObjectiveType} } )
 
         if (verAnswer && !verObjective){
             await QuantitativeObjective.update({ objective: req.body.objective, id_answer_types: req.body.idAnswerType }, 

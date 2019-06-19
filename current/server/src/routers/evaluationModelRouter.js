@@ -8,7 +8,7 @@ const EvaluationCycle = require('../models/evaluationCycle')
 router.get('/evaluationModel', async (req, res) => {
 
     try{
-        let errMessage = 'Evaluation model not found'
+        const errMessage = 'Evaluation model not found'
         if (!req.query.model && !req.query.id){
             const response = await EvaluationModel.findAll()
             if (response[0]){
@@ -48,12 +48,12 @@ router.post('/evaluationModel', async (req, res) => {
             return res.status(400).send('You must send the model\'s model and the ID of the evaluation cycle it belongs to')
         }
         
-        let repeat = await EvaluationModel.findOne( { where: { [Op.or]: { model: req.body.model, id_evaluation_cycles: req.body.idCycle}}})
+        const repeat = await EvaluationModel.findOne( { where: { [Op.or]: { model: req.body.model, id_evaluation_cycles: req.body.idCycle}}})
     
         if (repeat != null) {
             return res.status(409).send('An evaluation model with that model or cycle already exists')
         }
-        let evalCycle = await EvaluationCycle.findOne( { where: {id: req.body.idCycle}})
+        const evalCycle = await EvaluationCycle.findOne( { where: {id: req.body.idCycle}})
         if (!evalCycle || evalCycle == null){
             return res.status(404).send('Evaluation cycle not found.')
         }
@@ -73,7 +73,7 @@ router.patch('/evaluationModel', async (req, res) => {
         if (!req.body.model || !req.body.id) {
             return res.status(400).send('You must send the ID of the evaluation model and its new model')
         }
-        let repeat = await EvaluationModel.findOne( { where: { model: req.body.model}})
+        const repeat = await EvaluationModel.findOne( { where: { model: req.body.model}})
 
         if (repeat != null && repeat.model === req.body.model) {
             return res.status(409).send('A model with this name or cycle already exists')
@@ -82,7 +82,7 @@ router.patch('/evaluationModel', async (req, res) => {
             await EvaluationModel.update( { model: req.body.model }, { where: { id: req.body.id } })
             return res.send()
         }
-        let evalCycle = await EvaluationCycle.findOne( { where: {id: req.body.idCycle}})
+        const evalCycle = await EvaluationCycle.findOne( { where: {id: req.body.idCycle}})
         if (!evalCycle || evalCycle == null){
             return res.status(404).send('Evaluation cycle not found.')
         }

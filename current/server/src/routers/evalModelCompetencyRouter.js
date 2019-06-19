@@ -7,7 +7,7 @@ const EvalModelCompetency = require ('../models/evalModelCompetency')
 router.get('/evalModelCompetency', async (req, res) => {
 
     try{
-        let errMessage = 'Relation not found'
+        const errMessage = 'Relation not found'
         if (!req.query.idModel && !req.query.idCompetency){
             const response = await EvalModelCompetency.findAll()
             if (response[0]){
@@ -46,7 +46,7 @@ router.post('/evalModelCompetency', async (req, res) => {
         if (!req.body.idModel || !req.body.idCompetency) {
             return res.status(400).send('You must send both the evaluation model ID and the competency ID')
         }
-        let repeat = await EvalModelCompetency.findOne( { where: { [Op.and]: {id_evaluation_models: req.body.idModel, 
+        const repeat = await EvalModelCompetency.findOne( { where: { [Op.and]: {id_evaluation_models: req.body.idModel, 
                                                             id_competencies: req.body.idCompetency } } } )
 
         if (repeat != null) {
@@ -71,7 +71,7 @@ router.post('/evalModelCompetency', async (req, res) => {
 //         if (!req.body.idModel || !req.body.idCompetency) {
 //             return res.status(400).send('You must send both the evaluation model ID and the competency ID')
 //         }
-//         let repeat = await EvalModelCompetency.findOne( { where: { [Op.and]: [ {id_evaluation_models: req.body.idModel },
+//         const repeat = await EvalModelCompetency.findOne( { where: { [Op.and]: [ {id_evaluation_models: req.body.idModel },
 //             { id_competencies: req.body.idCompetency } ] } } )
 
 //         if (repeat != null) {
