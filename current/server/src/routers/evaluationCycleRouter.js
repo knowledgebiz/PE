@@ -29,8 +29,8 @@ router.get('/evaluationCycle', async (req, res) => {
         if (req.query.startDate && req.query.endDate){
 
             
-            const response = await EvaluationCycle.findAll( { where: { [Op.and]:  {start_date: req.query.startDate, end_date: req.query.endDate }}})
-            if (response[0]){
+            const response = await EvaluationCycle.findOne( { where: { [Op.and]:  {start_date: req.query.startDate, end_date: req.query.endDate }}})
+            if (response){
                 return res.send(response)
             }
             return res.status(404).send(errMessage)

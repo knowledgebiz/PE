@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "env-cmd -f ./config/dev.env nodemon src/app.js",
-    "test": "jest"
+    "test": "jest --runInBand --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +13,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "iconv-lite": "^0.4.24",
     "mysql2": "^1.6.5",
     "sequelize": "^5.8.7",
     "tedious": "^6.2.0"

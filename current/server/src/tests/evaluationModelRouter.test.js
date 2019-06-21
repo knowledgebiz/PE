@@ -1,10 +1,10 @@
 const assert = require('assert')
-const sequelize = require('../db/connection')
+require('../db/test-connection')
 const httpMocks = require('node-mocks-http')
 const routeHandler = require('../routers/evaluationModelRouter')
 
 describe('Evaluation Model Router', () =>{
-    it("should return 200 (GET)", () => {
+    it("should return 200 (GET)", async (next) => {
         const req = httpMocks.createRequest({
             method: "GET",
             url: "/evaluationModel"
@@ -14,9 +14,10 @@ describe('Evaluation Model Router', () =>{
         routeHandler(req, res)
 
         assert(res.statusCode == 200)
+        next()
     })
 
-    it("should return 200 (POST) ", () => {
+    it("should return 200 (POST) ", async (next) => {
         const req = httpMocks.createRequest({
             method: "POST",
             url: "/evaluationModel",
@@ -30,9 +31,10 @@ describe('Evaluation Model Router', () =>{
         routeHandler(req, res)
         
         assert(res.statusCode == 200)
+        next()
     })
 
-    it("should return 400 (POST)", () => {
+    it("should return 400 (POST)", async (next) => {
         const req = httpMocks.createRequest({
             method: "POST",
             url: "/evaluationModel",
@@ -44,9 +46,10 @@ describe('Evaluation Model Router', () =>{
 
         routeHandler(req, res)
         assert(res.statusCode == 400)
+        next()
     })
 
-    it("should return 200 (PATCH) ", () => {
+    it("should return 200 (PATCH) ", async (next) => {
         const req = httpMocks.createRequest({
             method: "PATCH",
             url: "/evaluationModel",
@@ -61,9 +64,10 @@ describe('Evaluation Model Router', () =>{
         routeHandler(req, res)
 
         assert(res.statusCode == 200)
+        next()
     })
 
-    it("should return 400 (PATCH) ", () => {
+    it("should return 400 (PATCH) ", async (next) => {
         const req = httpMocks.createRequest({
             method: "PATCH",
             url: "/evaluationModel",
@@ -77,9 +81,10 @@ describe('Evaluation Model Router', () =>{
         routeHandler(req, res)
         
         assert(res.statusCode == 400)
+        next()
     })
 
-    it("should return 200 (DELETE) ", () => {
+    it("should return 200 (DELETE) ", async (next) => {
         const req = httpMocks.createRequest({
             method: "DELETE",
             url: "/evaluationModel",
@@ -92,9 +97,10 @@ describe('Evaluation Model Router', () =>{
         routeHandler(req, res)
 
         assert(res.statusCode == 200)
+        next()
     })
 
-    it("should return 400 (DELETE) ", () => {
+    it("should return 400 (DELETE) ", async (next) => {
         const req = httpMocks.createRequest({
             method: "DELETE",
             url: "/evaluationModel",
@@ -107,5 +113,6 @@ describe('Evaluation Model Router', () =>{
         routeHandler(req, res)
         
         assert(res.statusCode == 400)
+        next()
     })
 })
