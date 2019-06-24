@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { catchError, map, tap } from 'rxjs/operators'
+import { retry, catchError } from 'rxjs/operators'
 import { Evaluation } from './evaluation'
 
 const httpOptions = {
