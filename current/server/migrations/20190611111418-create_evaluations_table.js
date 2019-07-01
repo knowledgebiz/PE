@@ -29,8 +29,7 @@ module.exports = {
       id_evaluation_models: 
       {
           type: Sequelize.INTEGER,
-          allowNull: false,
-          references: { model: 'evaluation_models', key: 'id'}
+          allowNull: false
       }
     })
   },

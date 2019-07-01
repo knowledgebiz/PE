@@ -10,10 +10,6 @@ const competency = sequelize.define('competencies', {
     competency: {
         type: Sequelize.STRING(50),
         allowNull: false
-    },
-    id_answer_types: {
-        type: Sequelize.INTEGER,
-        allowNull: false
     }
 }, {
     timestamps: false

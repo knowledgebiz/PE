@@ -11,7 +11,6 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.use('/api', routers.answerTypeRouter)
 app.use('/api', routers.evaluationModelRouter)
 app.use('/api', routers.competencyRouter)
 app.use('/api', routers.quantObjectiveTypeRouter)

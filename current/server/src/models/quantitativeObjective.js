@@ -11,13 +11,12 @@ const quantitativeObjective = sequelize.define('quantitative_objectives', {
         type: Sequelize.STRING(50),
         allowNull: false
     },
-    id_answer_types: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
     id_quantitative_objective_types: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: { model: 'quantitativeObjectiveType', key: 'id'},
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     }
 }, {
     timestamps: false

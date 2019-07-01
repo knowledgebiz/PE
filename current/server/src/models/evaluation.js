@@ -17,7 +17,10 @@ const evaluation = sequelize.define('evaluations', {
     },
     id_evaluation_models: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: { model: 'evaluationModel', key: 'id'},
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     }
 })
 

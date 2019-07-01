@@ -20,7 +20,10 @@ const evaluationModel = sequelize.define('evaluation_models', {
     id_evaluation_cycles: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true
+        unique: true,
+        references: { model: 'evaluationCycle', key: 'id'},
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     }
 })
 

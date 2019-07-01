@@ -14,11 +14,6 @@ module.exports = {
           type: Sequelize.STRING(50),
           allowNull: true,
           unique: true
-      },
-      id_answer_types: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: { model: 'answer_types', key: 'id'}
       }
     })
   },

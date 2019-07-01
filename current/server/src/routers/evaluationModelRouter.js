@@ -9,6 +9,13 @@ router.get('/evaluationModel', async (req, res) => {
 
     try{
         const errMessage = 'Evaluation model not found'
+        if (req.query.active && req.query.active == 1) {
+            const response = await EvaluationModel.findOne( { where: { active: 1 } } )
+            if (response) {
+                return res.send(response)
+            }
+            return res.status(404).send(errMessage)
+        }
         if (!req.query.model && !req.query.id){
             const response = await EvaluationModel.findAll()
             if (response[0]){
