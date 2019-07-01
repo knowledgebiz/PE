@@ -25,6 +25,14 @@ export class EvaluationModelService {
     return this.http.get<EvaluationModel>(`${this.url}?id=${id}`)
   }
 
+  getActiveEvaluationModel(): Observable<EvaluationModel> {
+    return this.http.get<EvaluationModel>(`${this.url}?active=1`)
+  }
+
+  getWorker() {
+    return this.http.get(`${this.url}/worker`)
+  }
+
   getEvaluationModelsByTerm(term: any): Observable<EvaluationModel[]> {
     if (!this.http.get<EvaluationModel[]>(`${this.url}?model=${term}`)){
       return of([])

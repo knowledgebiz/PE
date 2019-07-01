@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { catchError, map, tap } from 'rxjs/operators'
+import { catchError, map, tap, share } from 'rxjs/operators'
 import { Competency } from './competency'
 
 const httpOptions = {
@@ -25,20 +25,17 @@ export class CompetencyService {
     return this.http.get<Competency>(`${this.url}?id=${id}`)
   }
 
+  getCompetenciesJoin(id: any): Observable<Competency[]> {
+    let specificUrl = `http://127.0.0.1:3000/api/competency/form`
+    return this.http.get<Competency[]>(`${specificUrl}?id=${id}`)
+  }
+
   getCompetenciesByTerm(term: any): Observable<Competency[]> {
     if (!this.http.get<Competency[]>(`${this.url}?competency=${term}`)){
       return of([])
     }
     return this.http.get<Competency[]>(`${this.url}?competency=${term}`)
   }
-
-  getCompetenciesByAnswerType(id: any): Observable<Competency[]> {
-    if (!this.http.get<Competency[]>(`${this.url}?idAnswerType=${id}`)){
-      return of([])
-    }
-    return this.http.get<Competency[]>(`${this.url}?idAnswerType=${id}`)
-  }
-
 
   updateCompetency(competency: Competency): Observable<any> {
     return this.http.patch(this.url, competency, httpOptions)

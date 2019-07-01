@@ -1,0 +1,25 @@
+<div *ngIf="models" class="content">
+  <h4>List of Evaluation Models:</h4><br>
+  <div class="table-responsive">
+    <table class="table table-hover table-bordered" width="100%">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Model Title</th>
+        <th scope="col">Is Active</th>
+        <th scope="col">Edit</th>
+        <th scope="col">(De)Activate</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+      <tr *ngFor="let model of models">
+        <th scope="row"> {{model.id}} </th>
+        <td> {{model.model}} </td>
+        <td> {{model.active}} </td>
+        <td><a class="btn btn-outline-primary" href="/form?id={{model.id}}" role="button">Edit</a></td>
+        <td><a class="btn btn-outline-secondary" href="/form?id={{model.id}}" role="button">(De)Activate</a></td> <!-- WIP -->
+        <td class="bg-dark"><button class="btn btn-danger" (click)="deleteEvaluationModel(model)" role="button">DELETE</button></td> <!-- WIP -->
+      </tr>
+    </table>
+  </div>
+</div>

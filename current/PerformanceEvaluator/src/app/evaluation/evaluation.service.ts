@@ -43,11 +43,11 @@ export class EvaluationService {
     return this.http.patch(this.url, evaluation, httpOptions)
   }
 
-  addCompetency(evaluation: Evaluation): Observable<Evaluation> {
+  addEvaluation(evaluation: Evaluation): Observable<Evaluation> {
     return this.http.post<Evaluation>(this.url, evaluation, httpOptions)
   }
 
-  deleteCompetency(evaluation: Evaluation | number): Observable<Evaluation> {
+  deleteEvaluation(evaluation: Evaluation | number): Observable<Evaluation> {
     const id = typeof evaluation === 'number' ? evaluation: evaluation.id
     return this.http.delete<Evaluation>(`${this.url}?id=${id}`, httpOptions)
   }

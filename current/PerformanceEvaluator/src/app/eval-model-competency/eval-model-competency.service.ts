@@ -25,12 +25,12 @@ export class EvalModelCompetencyService {
     return this.http.get<EvalModelCompetency>(`${this.url}?idModel=${idModel}&idCompetency=${idCompetency}`)
   }
 
-  getModelCompetencyRelationByModel(id: any): Observable<EvalModelCompetency> {
-    return this.http.get<EvalModelCompetency>(`${this.url}?idModel=${id}`)
+  getModelCompetencyRelationByModel(id: any): Observable<EvalModelCompetency[]> {
+    return this.http.get<EvalModelCompetency[]>(`${this.url}?idModel=${id}`)
   }
   
-  getModelCompetencyRelationByCompetency(id: any): Observable<EvalModelCompetency> {
-    return this.http.get<EvalModelCompetency>(`${this.url}?idCompetency=${id}`)
+  getModelCompetencyRelationByCompetency(id: any): Observable<EvalModelCompetency[]> {
+    return this.http.get<EvalModelCompetency[]>(`${this.url}?idCompetency=${id}`)
   }
 
   addModelCompetencyRelation(evalModelCompetency: EvalModelCompetency): Observable<EvalModelCompetency>{

@@ -25,6 +25,11 @@ export class QuantitativeObjectiveService {
     return this.http.get<QuantitativeObjective>(`${this.url}?id=${id}`)
   }
 
+  getObjectivesJoin(id:any): Observable<QuantitativeObjective[]> { // FOR TESTING PURPOSES
+    let specificUrl = 'http://127.0.0.1:3000/api/objective/form'
+    return this.http.get<QuantitativeObjective[]>(`${specificUrl}?id=${id}`)
+  }
+
   getObjectivesByTerm(term: any): Observable<QuantitativeObjective[]> {
     if (!this.http.get<QuantitativeObjective[]>(`${this.url}?objective=${term}`)){
       return of([])
@@ -32,18 +37,11 @@ export class QuantitativeObjectiveService {
     return this.http.get<QuantitativeObjective[]>(`${this.url}?objective=${term}`)
   }
 
-  getObjectivesByAnswerType(id: any): Observable<QuantitativeObjective[]> {
-    if (!this.http.get<QuantitativeObjective[]>(`${this.url}?idAnswerType=${id}`)){
-      return of([])
-    }
-    return this.http.get<QuantitativeObjective[]>(`${this.url}?idAnswerType=${id}`)
-  }
-
   getObjectivesByObjectiveType(id: any): Observable<QuantitativeObjective[]> {
     if (!this.http.get<QuantitativeObjective[]>(`${this.url}?idObjectiveType=${id}`)){
       return of([])
     }
-    return this.http.get<QuantitativeObjective[]>(`${this.url}?idAnswerType=${id}`)
+    return this.http.get<QuantitativeObjective[]>(`${this.url}?idObjectiveType=${id}`)
   }
 
 

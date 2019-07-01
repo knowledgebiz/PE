@@ -25,12 +25,12 @@ export class EvalModelQuantObjectiveService {
     return this.http.get<EvalModelQuantObjective>(`${this.url}?idModel=${idModel}&idObjective=${idObjective}`)
   }
 
-  getModelObjectiveRelationByModel(id: any): Observable<EvalModelQuantObjective> {
-    return this.http.get<EvalModelQuantObjective>(`${this.url}?idModel=${id}`)
+  getModelObjectiveRelationByModel(id: any): Observable<EvalModelQuantObjective[]> {
+    return this.http.get<EvalModelQuantObjective[]>(`${this.url}?idModel=${id}`)
   }
   
-  getModelObjectiveRelationByObjective(id: any): Observable<EvalModelQuantObjective> {
-    return this.http.get<EvalModelQuantObjective>(`${this.url}?idObjective=${id}`)
+  getModelObjectiveRelationByObjective(id: any): Observable<EvalModelQuantObjective[]> {
+    return this.http.get<EvalModelQuantObjective[]>(`${this.url}?idObjective=${id}`)
   }
 
   addModelObjectiveRelation(evalModelQuantObjective: EvalModelQuantObjective): Observable<EvalModelQuantObjective>{
