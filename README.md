@@ -38,293 +38,6 @@ Make sure to be running a MySQL server before using this module
 
 <br><br>
 
-### answerTypeRouter
-
-#### GET - Read answer types
-
-##### Request
-
-GET /api/answerType<br>
-GET /api/answerType?id=VALUE<br>
-GET /api/answerType?type=VALUE<br>
-Accept: application/json
-<br><br>
-#### Response example:
-
-X-Powered-By: Express<br>
-Access-Control-Allow-Origin: *<br>
-Content-Type: application/json; charset=utf-8<br>
-Content-Length: 101<br>
-ETag: W/"65-GWzHAWfPUNM1vJBj0ZltsHwpOX4"<br>
-Date: Wed, 12 Jun 2019 10:32:16 GMT<br>
-Connection: keep-alive
-   
-    {
-        "id": VALUE,
-        "type": VALUE
-    }
-
-##### Query Parameters
-
-
-<table>
-  <tr>
-    <th>Parameter</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>id</td>
-    <td>No</td>
-    <td>Filter by answer type id</td>
-  </tr>
-  <tr>
-    <td>type</td>
-    <td>No</td>
-    <td>Filter by answer types that correspond to the string received</td>
-  </tr>
-</table>
-
-##### Transfer Payload
-
-None
-
-##### Return Payload
-
-Example:
-
-
-    {
-        "id": 1,
-        "type": "The First type"
-    },
-    {
-        "id": 2,
-        "type": "The Second type"
-    },
-    {
-        "id": 3,
-        "type": "The Third type"
-    }
-
-
-##### Return Codes
-
-<table>
-  <tr>
-    <th>Code</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>200</td>
-    <td>Answer type found</td>
-  </tr>
-  <tr>
-    <td>404</td>
-    <td>Answer type not found</td>
-  </tr>
-  <tr>
-    <td>500</td>
-    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
-  </tr>
-</table>
-
-#### POST - Create a new answer type
-
-##### Request
-
-POST /api/answerType<br>
-Accept: application/json<br>
-
-X-Powered-By: Express<br>
-Access-Control-Allow-Origin: *<br>
-Content-Type: text/html; charset=utf-8<br>
-Content-Length: 10<br>
-ETag: W/"a-qdHkDDj9jcJ7dIrBCJjRwYYs0KA"<br>
-Date: Wed, 12 Jun 2019 10:59:17 GMT<br>
-Connection: keep-alive
-
-    VALUE
-
-##### Query Parameters
-
-None
-
-##### Transfer Payload
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Required</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>type</td>
-    <td>Yes</td>
-    <td>String</td>
-    <td>Name of the answer type (Example: Multiple answer)</td>
-  </tr>
-</table>
-
-##### Return Payload
-
-Example:
-
-    A New type
-
-##### Return Codes
-
-<table>
-  <tr>
-    <th>Code</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>201</td>
-    <td>Answer type created</td>
-  </tr>
-  <tr>
-    <td>400</td>
-    <td>Required data field not sent</td>
-  </tr>
-  <tr>
-    <td>409</td>
-    <td>Answer type already exists</td>
-  </tr>
-  <tr>
-    <td>500</td>
-    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
-  </tr>
-</table>
-
-#### PATCH - Update answer type
-
-##### Request
-
-PATCH /api/answerType<br>
-Accept: application/json<br>
-
-X-Powered-By: Express<br>
-Access-Control-Allow-Origin: *<br>
-Date: Wed, 12 Jun 2019 11:07:24 GMT<br>
-Connection: keep-alive<br>
-Content-Length: 0
-
-##### Query Parameters
-
-None
-
-##### Transfer Payload
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Required</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>id</td>
-    <td>Yes</td>
-    <td>Integer</td>
-    <td>ID of the answer type</td>
-  </tr>
-  <tr>
-    <td>type</td>
-    <td>Yes</td>
-    <td>String</td>
-    <td>New answer type</td>
-  </tr>
-</table>
-
-##### Return Payload
-
-None
-
-##### Return Codes
-
-<table>
-  <tr>
-    <th>Code</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>200</td>
-    <td>Answer type updated</td>
-  </tr>
-  <tr>
-    <td>400</td>
-    <td>Required data field not sent</td>
-  </tr>
-  <tr>
-    <td>409</td>
-    <td>Answer type already exists</td>
-  </tr>
-  <tr>
-    <td>500</td>
-    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
-  </tr>
-</table>
-
-#### DELETE - Delete answer type
-
-##### Request
-
-DELETE /api/answerType?id=VALUE<br>
-Accept: application/json<br>
-
-X-Powered-By: Express<br>
-Access-Control-Allow-Origin: *<br>
-Date: Wed, 12 Jun 2019 11:44:26 GMT<br>
-Connection: keep-alive
-
-##### Query Parameters
-
-<table>
-  <tr>
-    <th>Parameter</th>
-    <th>Required</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>id</td>
-    <td>Yes</td>
-    <td>ID of the answer type to delete</td>
-  </tr>
-</table>
-
-##### Transfer Payload
-
-None
-
-##### Return Payload
-
-None
-
-##### Return Codes
-
-<table>
-  <tr>
-    <th>Code</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>204</td>
-    <td>Answer type deleted</td>
-  </tr>
-  <tr>
-    <td>400</td>
-    <td>Required data field not sent</td>
-  </tr>
-  <tr>
-    <td>500</td>
-    <td>Internal Server Error - There was an unexpected error at some point during the processing of the request.</td>
-  </tr>
-</table>
-
-<br><br>
-
 ### evaluationCycleRouter
 
 #### GET - Read evaluation cycles
@@ -1311,7 +1024,6 @@ None
 GET /api/competency<br>
 GET /api/competency?id=VALUE<br>
 GET /api/competency?competency=VALUE<br>
-GET /api/competency?idAnswerType=VALUE<br>
 Accept: application/json
 <br><br>
 #### Response example:
@@ -1328,8 +1040,7 @@ Example:
    
     {
       "id": VALUE,
-      "competency": VALUE,
-      "id_answer_types": VALUE"
+      "competency": VALUE
     }
 
 ##### Query Parameters
@@ -1351,11 +1062,6 @@ Example:
     <td>No</td>
     <td>Filter by competency</td>
   </tr>
-  <tr>
-    <td>idAnswerType</td>
-    <td>No</td>
-    <td>Filter competencies by their answer type id</td>
-  </tr>
 </table>
 
 ##### Transfer Payload
@@ -1369,8 +1075,7 @@ Example:
 
     {
         "id": 1,
-        "competency": "Competency",
-        "id_answer_types": 1
+        "competency": "Competency"
     }
 
 
@@ -1431,12 +1136,6 @@ None
     <td>String</td>
     <td>The competency to create</td>
   </tr>
-  <tr>
-    <td>idAnswerType</td>
-    <td>Yes</td>
-    <td>Integer</td>
-    <td>The competency's answer type's id</td>
-  </tr>
 </table>
 
 ##### Return Payload
@@ -1459,10 +1158,6 @@ Example:
   <tr>
     <td>400</td>
     <td>Required data field not sent</td>
-  </tr>
-  <tr>
-    <td>404</td>
-    <td>Answer type not found</td>
   </tr>
   <tr>
     <td>409</td>
@@ -1511,12 +1206,6 @@ None
     <td>Yes</td>
     <td>String</td>
     <td>New competency</td>
-  </tr>
-  <tr>
-    <td>idAnswerType</td>
-    <td>No</td>
-    <td>Integer</td>
-    <td>New answer type's id</td>
   </tr>
 </table>
 
@@ -1617,7 +1306,6 @@ None
 GET /api/objective<br>
 GET /api/objective?id=VALUE<br>
 GET /api/objective?competency=VALUE<br>
-GET /api/objective?idAnswerType=VALUE<br>
 Accept: application/json
 <br><br>
 #### Response example:
@@ -1635,7 +1323,6 @@ Example:
     {
       "id": VALUE,
       "objective": VALUE,
-      "id_answer_types": VALUE",
       "id_quantitative_objective_types": VALUE
     }
 
@@ -1659,11 +1346,6 @@ Example:
     <td>Filter by objective</td>
   </tr>
   <tr>
-    <td>idAnswerType</td>
-    <td>No</td>
-    <td>Filter objectives by their answer type id</td>
-  </tr>
-  <tr>
     <td>idObjectiveType</td>
     <td>No</td>
     <td>Filter objectives by their objective type id</td>
@@ -1682,7 +1364,6 @@ Example:
     {
         "id": 1,
         "objective": "Objective",
-        "id_answer_types": 1,
         "id_quantitative_objective_types": 1
     }
 
@@ -1745,12 +1426,6 @@ None
     <td>The objective to create</td>
   </tr>
   <tr>
-    <td>idAnswerType</td>
-    <td>Yes</td>
-    <td>Integer</td>
-    <td>The objective's answer type's id</td>
-  </tr>
-  <tr>
     <td>idObjectiveType</td>
     <td>Yes</td>
     <td>Integer</td>
@@ -1778,10 +1453,6 @@ Example:
   <tr>
     <td>400</td>
     <td>Required data field not sent</td>
-  </tr>
-  <tr>
-    <td>404</td>
-    <td>Answer type or objective type not found</td>
   </tr>
   <tr>
     <td>409</td>
@@ -1832,12 +1503,6 @@ None
     <td>New objective</td>
   </tr>
   <tr>
-    <td>idAnswerType</td>
-    <td>No</td>
-    <td>Integer</td>
-    <td>New answer type's id</td>
-  </tr>
-  <tr>
     <td>idObjectiveType</td>
     <td>No</td>
     <td>Integer</td>
@@ -1863,10 +1528,6 @@ None
   <tr>
     <td>400</td>
     <td>Required data field not sent</td>
-  </tr>
-  <tr>
-    <td>404</td>
-    <td>Invalid answer type <b>and</b> objective type</td>
   </tr>
   <tr>
     <td>409</td>
