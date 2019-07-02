@@ -8,23 +8,23 @@ import { Title } from '@angular/platform-browser'
 
 // Classes
 
-import { EvaluationModel } from '../../evaluation-model/evaluation-model'
-import { Evaluation } from '../../evaluation/evaluation'
-import { Competency } from '../../competency/competency'
-import { QuantitativeObjective } from '../../quantitative-objective/quantitative-objective'
-import { QuantitativeObjectiveType } from '../../quantitative-objective-type/quantitative-objective-type'
-import { EvalModelCompetency } from '../../eval-model-competency/eval-model-competency'
-import { EvalModelQuantObjective } from '../../eval-model-quant-objective/eval-model-quant-objective'
+import { EvaluationModel } from '../../classes/evaluation-model'
+import { Evaluation } from '../../classes/evaluation'
+import { Competency } from '../../classes/competency'
+import { QuantitativeObjective } from '../../classes/quantitative-objective'
+import { QuantitativeObjectiveType } from '../../classes/quantitative-objective-type'
+import { EvalModelCompetency } from '../../classes/eval-model-competency'
+import { EvalModelQuantObjective } from '../../classes/eval-model-quant-objective'
 
 // Services
 
-import { EvaluationModelService } from '../../evaluation-model/evaluation-model.service'
-import { EvaluationService } from '../../evaluation/evaluation.service'
-import { CompetencyService } from '../../competency/competency.service'
-import { QuantitativeObjectiveService } from '../../quantitative-objective/quantitative-objective.service'
-import { QuantitativeObjectiveTypeService } from '../../quantitative-objective-type/quantitative-objective-type.service'
-import { EvalModelCompetencyService } from '../../eval-model-competency/eval-model-competency.service'
-import { EvalModelQuantObjectiveService } from '../../eval-model-quant-objective/eval-model-quant-objective.service'
+import { EvaluationModelService } from '../../services/evaluation-model.service'
+import { EvaluationService } from '../../services/evaluation.service'
+import { CompetencyService } from '../../services/competency.service'
+import { QuantitativeObjectiveService } from '../../services/quantitative-objective.service'
+import { QuantitativeObjectiveTypeService } from '../../services/quantitative-objective-type.service'
+import { EvalModelCompetencyService } from '../../services/eval-model-competency.service'
+import { EvalModelQuantObjectiveService } from '../../services/eval-model-quant-objective.service'
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 
 @Component({

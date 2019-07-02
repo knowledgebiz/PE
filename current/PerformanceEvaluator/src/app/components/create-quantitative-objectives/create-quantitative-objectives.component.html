@@ -1,0 +1,38 @@
+<div class="content">
+  <label>Quantitative Objective: <input #objective/></label><br>
+  <label>Type of Objective: 
+    <select #objectiveType>
+      <option *ngFor="let type of types" [value]="type.id">{{type.type}}</option>
+    </select>
+  </label><br>
+  <button class="btn btn-primary" (click)="createQuantObjective(objective.value, objectiveType.value); objective.value = ''; objectiveType.value = '1'">Create Objective</button>
+
+  <h4>List of Quantitative Objectives:</h4><br>
+  <div *ngIf="objectives" class="table-responsive">
+    <table class="table table-hover table-bordered" width="100%">
+      <thead class="thead-dark">
+      <tr>
+        <th width="2%" scope="col">#</th>
+        <th scope="col">Quantitative Objective</th>
+        <th scope="col">Type</th>
+        <th width="5%" scope="col">Edit</th>
+        <th width="5%" scope="col">Delete</th>
+      </tr>
+    </thead>
+      <tr *ngFor="let objective of objectives">
+        <th scope="row"> {{objective.id}} </th>
+        <td><input #tableObjective type="text" [ngStyle]="{ 'background-color': 'transparent', 'border':'none' }" [(ngModel)]="objective.objective" [disabled]="!objective.isEditable"></td>
+        <td>
+          <select #objectiveType [ngStyle]="{ 'background-color': 'transparent', 'border':'none' }" [disabled]="!objective.isEditable"  [(ngModel)]="types[objective.id_quantitative_objective_types-1].id" [value]="types[objective.id_quantitative_objective_types-1].id" >
+            <option  *ngFor="let type of types"[value]="type.id">{{type.type}}</option>
+          </select>
+        </td>
+        <td>
+            <button class="btn btn-outline-primary" (click)="objective.isEditable=!objective.isEditable" *ngIf="!objective.isEditable" role="button">Edit</button>
+            <button class="btn btn-outline-primary" (click)="updateQuantObjective(objective.id, tableObjective.value, objectiveType.value);objective.isEditable=!objective.isEditable" *ngIf="objective.isEditable" role="button">Save</button> 
+        </td>
+        <td class="bg-dark"><button class="btn btn-danger" (click)="deleteQuantObjective(objective)">DELETE</button></td> <!-- WIP -->
+      </tr>
+    </table>
+  </div>
+</div>

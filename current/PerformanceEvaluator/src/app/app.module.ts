@@ -19,7 +19,10 @@ import { MatRadioModule } from '@angular/material/radio'
 import { EvaluationFormsComponent } from './components/evaluation-forms/evaluation-forms.component'
 import 'hammerjs';
 import { FormListComponent } from './components/form-list/form-list.component';
-import { CreateCompetenciesComponent } from './components/create-competencies/create-competencies.component'
+import { CreateCompetenciesComponent } from './components/create-competencies/create-competencies.component';
+import { CreateQuantitativeObjectivesComponent } from './components/create-quantitative-objectives/create-quantitative-objectives.component';
+import { CreateEvaluationModelComponent } from './components/create-evaluation-model/create-evaluation-model.component';
+import { CreateEvaluationCycleComponent } from './components/create-evaluation-cycle/create-evaluation-cycle.component'
 
 @NgModule({
   declarations: [
@@ -27,6 +30,9 @@ import { CreateCompetenciesComponent } from './components/create-competencies/cr
     EvaluationFormsComponent,
     FormListComponent,
     CreateCompetenciesComponent,
+    CreateQuantitativeObjectivesComponent,
+    CreateEvaluationModelComponent,
+    CreateEvaluationCycleComponent,
   ],
   imports: [
     BrowserModule,

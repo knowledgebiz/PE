@@ -15,8 +15,11 @@
     </thead>
       <tr *ngFor="let competency of competencies">
         <th scope="row"> {{competency.id}} </th>
-        <td> {{competency.competency}} </td>
-        <td><a class="btn btn-outline-primary" href="/competency?id={{competency.id}}" role="button">Edit</a></td>
+        <td><input #tableCompetency type="text" [ngStyle]="{ 'background-color': 'transparent', 'border':'none' }" [(ngModel)]="competency.competency" [disabled]="!competency.isEditable "></td>
+        <td>
+          <button class="btn btn-outline-primary" (click)="competency.isEditable=!competency.isEditable" *ngIf="!competency.isEditable" role="button">Edit</button> 
+          <button class="btn btn-outline-primary" (click)="updateCompetency(competency.id, tableCompetency.value);competency.isEditable=!competency.isEditable" *ngIf="competency.isEditable" role="button">Save</button> 
+        </td>
         <td class="bg-dark"><button class="btn btn-danger" (click)="deleteCompetency(competency)">DELETE</button></td> <!-- WIP -->
       </tr>
     </table>

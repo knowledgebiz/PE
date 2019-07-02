@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { EvaluationModel } from '../../evaluation-model/evaluation-model'
-import { EvaluationModelService } from '../../evaluation-model/evaluation-model.service'
+import { EvaluationModel } from '../../classes/evaluation-model'
+import { EvaluationModelService } from '../../services/evaluation-model.service'
 
-import { EvaluationCycle } from '../../evaluation-cycle/evaluation-cycle'
-import { EvaluationCycleService } from '../../evaluation-cycle/evaluation-cycle.service'
+import { EvaluationCycle } from '../../classes/evaluation-cycle'
+import { EvaluationCycleService } from '../../services/evaluation-cycle.service'
 
 import { Title } from '@angular/platform-browser'
 

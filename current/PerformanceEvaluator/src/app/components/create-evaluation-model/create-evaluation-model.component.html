@@ -1,0 +1,9 @@
+<div class="content">
+  <label>Model Title: &nbsp;</label>
+    <input type="text" maxlength="45"/><br>
+
+  <label>Evaluation Cycle:&nbsp;</label>
+  <select #evaluationCycle>
+    <option *ngFor="let cycle of cycles" [value]="cycle.id">{{cycle.start_date}} to {{cycle.end_date}} </option>
+  </select>
+</div>

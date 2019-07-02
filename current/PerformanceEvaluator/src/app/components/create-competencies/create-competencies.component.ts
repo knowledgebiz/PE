@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Competency } from '../../competency/competency'
-import { CompetencyService } from '../../competency/competency.service'
+import { Competency } from '../../classes/competency'
+import { CompetencyService } from '../../services/competency.service'
 import { Title } from '@angular/platform-browser'
 import { Subject } from 'rxjs'
 
@@ -14,7 +14,7 @@ export class CreateCompetenciesComponent implements OnInit {
 
   competency: Competency
   competencies: Competency[]
-  update = new Subject<Competency[]>()
+  showForm : boolean = false
 
   constructor( 
     private competencyService: CompetencyService,
@@ -34,7 +34,7 @@ export class CreateCompetenciesComponent implements OnInit {
     competency = competency.trim()
     if (competency) {
       this.competencyService.addCompetency( { competency } as Competency ).subscribe(competency => this.competencies.push(competency))
-      // window.location.reload()
+      window.location.reload()
     }
   }
 
@@ -42,10 +42,18 @@ export class CreateCompetenciesComponent implements OnInit {
     this.competencyService.getCompetencies().subscribe(competencies => this.competencies = competencies)
   }
 
-  deleteCompetency(id: Competency | number): void {
-    this.competencyService.deleteCompetency(id).subscribe(res => {console.log(res);
+  getCompetency(id: number): void {
+    this.competencyService.getCompetency(id).subscribe(competency => this.competency = competency)
+  }
+
+  updateCompetency(id: number, competency: string): void {
+    this.competencyService.updateCompetency( {id, competency} as Competency).subscribe(competency => console.log(competency))
+  }
+
+  deleteCompetency(competencyToDelete: Competency | number): void {
+    this.competencyService.deleteCompetency(competencyToDelete).subscribe(res => {console.log(res);
       this.competencies = this.competencies.filter((competency) => {
-        return competency !== id
+        return competency !== competencyToDelete
       })
     })
   }
