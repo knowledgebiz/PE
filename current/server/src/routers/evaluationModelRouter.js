@@ -103,6 +103,7 @@ router.patch('/evaluationModel', async (req, res) => {
 
 router.patch('/evaluationModel/:id', async (req, res) => {
     try {
+        console.log('aqui')
         const modelId = req.params.id
         if (modelId){
 
