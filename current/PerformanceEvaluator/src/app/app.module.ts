@@ -4,7 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpErrorInterceptor } from './http-error-interceptor/http-error.interceptor'
+// import { HttpErrorInterceptor } from './http-error-interceptor/http-error.interceptor'
 import { EnvironmentUrlService } from './environment-url.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule } from '@angular/forms'
@@ -50,11 +50,12 @@ import { CreateEvaluationCycleComponent } from './components/create-evaluation-c
   ],
   providers: [
     EnvironmentUrlService,
-    {
-    provide: HTTP_INTERCEPTORS,
-    useClass: HttpErrorInterceptor,
-    multi: true
-  }],
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: HttpErrorInterceptor,
+    //   multi: true
+    // }
+  ],
   bootstrap: [AppComponent]
 })
 
