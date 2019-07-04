@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs'
+import { Observable, of, BehaviorSubject } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { retry, catchError } from 'rxjs/operators'
 import { EvaluationModel } from '../classes/evaluation-model'
@@ -14,6 +14,9 @@ const httpOptions = {
 export class EvaluationModelService {
 
   private url = 'http://127.0.0.1:3000/api/evaluationModel'
+
+  newModel: BehaviorSubject<EvaluationModel> = new BehaviorSubject<EvaluationModel>(null)
+  newModel$ = this.newModel.asObservable()
 
   constructor( private http: HttpClient ) { }
 
@@ -49,11 +52,16 @@ export class EvaluationModelService {
   }
 
   addEvaluationModel(evaluationModel: EvaluationModel): Observable<EvaluationModel> {
+    this.newModel.next(evaluationModel)
     return this.http.post<EvaluationModel>(this.url, evaluationModel, httpOptions)
+  }
+
+  deactivateEvaluationModel(id: any): Observable<EvaluationModel> {
+    return this.http.patch<EvaluationModel>(`${this.url}/${id}`, httpOptions)
   }
 
   deleteEvaluationModel(evaluationModel: EvaluationModel | number): Observable<EvaluationModel> {
     const id = typeof evaluationModel === 'number' ? evaluationModel: evaluationModel.id
-    return this.http.delete<EvaluationModel>(`${this.url}?id=${id}`)
+    return this.http.delete<EvaluationModel>(`${this.url}?id=${id}`, httpOptions)
   }
 }
