@@ -7,8 +7,8 @@
   </label><br>
   <button class="btn btn-primary" (click)="createQuantObjective(objective.value, objectiveType.value); objective.value = ''; objectiveType.value = '1'">Create Objective</button>
 
-  <h4>List of Quantitative Objectives:</h4><br>
-  <div *ngIf="objectives" class="table-responsive">
+  <div *ngIf="objectives || objective" class="table-responsive">
+    <h4>List of Quantitative Objectives:</h4><br>
     <table class="table table-hover table-bordered" width="100%">
       <thead class="thead-dark">
       <tr>

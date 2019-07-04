@@ -35,9 +35,6 @@ export class CreateQuantitativeObjectivesComponent implements OnInit {
 
   createQuantObjective(objective: string, idObjectiveType: number): void {
     objective = objective.trim()
-    console.log('aqui1')
-    console.log(idObjectiveType)
-    console.log('ali1')
     if (objective) {
       this.objectiveService.addObjective( { objective, idObjectiveType } as QuantitativeObjective ).subscribe(objective => this.objectives.push(objective))
       window.location.reload()

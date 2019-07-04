@@ -42,10 +42,6 @@ export class CreateCompetenciesComponent implements OnInit {
     this.competencyService.getCompetencies().subscribe(competencies => this.competencies = competencies)
   }
 
-  getCompetency(id: number): void {
-    this.competencyService.getCompetency(id).subscribe(competency => this.competency = competency)
-  }
-
   updateCompetency(id: number, competency: string): void {
     this.competencyService.updateCompetency( {id, competency} as Competency).subscribe(competency => console.log(competency))
   }

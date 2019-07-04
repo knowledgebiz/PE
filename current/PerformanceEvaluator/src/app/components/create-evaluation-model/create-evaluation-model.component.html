@@ -1,9 +1,40 @@
 <div class="content">
   <label>Model Title: &nbsp;</label>
-    <input type="text" maxlength="45"/><br>
+    <input #title type="text" maxlength="45"/><br>
 
   <label>Evaluation Cycle:&nbsp;</label>
   <select #evaluationCycle>
     <option *ngFor="let cycle of cycles" [value]="cycle.id">{{cycle.start_date}} to {{cycle.end_date}} </option>
   </select>
+
+  <div name="Objectives">
+    <label># of objectives
+      <input type="number" onkeydown="return false" min="1" max="{{objectives.length}}" value="1" #numberObjectives>
+      <button (click)="showObjectives = true">Submit</button>
+    </label>
+    <div *ngIf="showObjectives">
+      <div *ngFor="let item of ' '.repeat(numberObjectives.value).split(''); let i = index">
+        <select #objectiveToAdd id="objective{{i}}" [value]="objectives[i].id">
+          <option *ngFor="let objective of objectives" id="{{objective.id}}" [value]="objective.id">{{objective.objective}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div name="Competencies">
+    <label># of competencies
+      <input type="number" onkeydown="return false" min="1" max="{{competencies.length}}" value="1" #numberCompetencies>
+      <button (click)="showCompetencies = true">Submit</button>
+    </label>
+    <div *ngIf="showCompetencies">
+      <div *ngFor="let item of ' '.repeat(numberCompetencies.value).split(''); let i = index">
+        <select #competencyToAdd id="competency{{i}}" [value]="competencies[i].id">
+          <option *ngFor="let competency of competencies" id="{{competency.id}}" [value]="competency.id">{{competency.competency}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="createEvaluationModel(title.value, evaluationCycle.value)"></button>
+
 </div>

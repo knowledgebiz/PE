@@ -1,31 +1,30 @@
 <div class="content">
-    <label>Start Date: <input type="date" #startDate/></label><br>
-    <label>End Date: <input type="date" #endDate/></label><br>
-    <button class="btn btn-primary" (click)="createEvaluationCycle(startDate.value, endDate.value)">Create Evaluation Cycle</button>
+  <label>Start Date: <input type="date" #startDate/></label><br>
+  <label>End Date: <input type="date" #endDate/></label><br>
+  <button class="btn btn-primary" (click)="createEvaluationCycle(startDate.value, endDate.value)">Create Evaluation Cycle</button>
   
+  <div *ngIf="cycles || cycle" class="table-responsive">
     <h4>List of Evaluation Cycles:</h4><br>
-    <div *ngIf="cycles" class="table-responsive">
-      <table class="table table-hover table-bordered" width="100%">
-        <thead class="thead-dark">
-        <tr>
-          <th width="2%" scope="col">#</th>
-          <th scope="col">Start Date</th>
-          <th scope="col">End Date</th>
-          <th width="5%" scope="col">Edit</th>
-          <th width="5%" scope="col">Delete</th>
-        </tr>
-      </thead>
-        <tr *ngFor="let cycle of cycles">
-          <th scope="row"> {{cycle.id}} </th>
-          <td> <input size="24" #tableStartDate [ngStyle]="{ 'background-color': 'transparent', 'border':'none' }" [(ngModel)]="cycle.start_date" [disabled]="!cycle.isEditable "> </td> 
-          <td> <input size="24" #tableEndDate [ngStyle]="{ 'background-color': 'transparent', 'border':'none' }" [(ngModel)]="cycle.end_date" [disabled]="!cycle.isEditable "></td> 
-          <td>
-            <button class="btn btn-outline-primary" (click)="cycle.isEditable=!cycle.isEditable" *ngIf="!cycle.isEditable" role="button">Edit</button> 
-            <button class="btn btn-outline-primary" (click)="updateEvaluationCycle(cycle.id, tableStartDate.value, tableEndDate.value);cycle.isEditable=!cycle.isEditable" *ngIf="cycle.isEditable" role="button">Save</button> 
-          </td>
-          <td class="bg-dark"><button class="btn btn-danger" (click)="deleteEvaluationCycle(cycle)">DELETE</button></td> <!-- WIP -->
-        </tr>
-      </table>
-    </div>
+    <table class="table table-hover table-bordered" width="100%">
+      <thead class="thead-dark">
+      <tr>
+        <th width="2%" scope="col">#</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+        <th width="5%" scope="col">Edit</th>
+        <th width="5%" scope="col">Delete</th>
+      </tr>
+    </thead>
+      <tr *ngFor="let cycle of cycles">
+        <th scope="row"> {{cycle.id}} </th>
+        <td> <input #tableStartDate [ngStyle]="{ 'background-color': 'transparent', 'text-overflow': 'string','border':'none' }" [(ngModel)]="cycle.start_date" [disabled]="!cycle.isEditable "> </td> 
+        <td> <input #tableEndDate [ngStyle]="{ 'background-color': 'transparent', 'border':'none' }" [(ngModel)]="cycle.end_date" [disabled]="!cycle.isEditable "></td> 
+        <td>
+          <button class="btn btn-outline-primary" (click)="cycle.isEditable=!cycle.isEditable" *ngIf="!cycle.isEditable" role="button">Edit</button> 
+          <button class="btn btn-outline-primary" (click)="updateEvaluationCycle(cycle.id, tableStartDate.value, tableEndDate.value);cycle.isEditable=!cycle.isEditable" *ngIf="cycle.isEditable" role="button">Save</button> 
+        </td>
+        <td class="bg-dark"><button class="btn btn-danger" (click)="deleteEvaluationCycle(cycle)">DELETE</button></td>
+      </tr>
+    </table>
   </div>
-  
+</div>

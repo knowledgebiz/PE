@@ -36,14 +36,38 @@ export class CreateEvaluationModelComponent implements OnInit {
   ngOnInit() {
     this.setTitle()
     this.getEvaluationCycles()
+    this.getQuantObjectives()
+    this.getCompetencies()
+    this.modelService.newModel$.subscribe(newModel => { this.model = newModel} )
   }
 
   setTitle() {
     this.titleService.setTitle('Create Model')
   }
 
+  getNewModel() {
+    this.model = this.modelService.newModel.getValue()
+    console.log(this.model)
+  }
+
   getEvaluationCycles(): void {
     this.cycleService.getCycles().subscribe(cycles => this.cycles = cycles)
+  }
+
+  getCompetencies(): void {
+    this.competencyService.getCompetencies().subscribe(competencies => this.competencies = competencies)
+  }
+
+  getQuantObjectives(): void {
+    this.objectiveService.getObjectives().subscribe(objectives => this.objectives = objectives)
+  }
+
+  createEvaluationModel(model: string, idCycle: number): void {
+    this.modelService.addEvaluationModel( { model, idCycle } as EvaluationModel ).subscribe(model => this.models.push(model))
+    this.model = this.modelService.newModel.getValue()
+    const a = this.modelService.newModel.getValue()
+    console.log(this.model)
+    console.log(a)
   }
 
 }

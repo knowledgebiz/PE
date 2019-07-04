@@ -7,6 +7,7 @@ import { EvaluationCycle } from '../../classes/evaluation-cycle'
 import { EvaluationCycleService } from '../../services/evaluation-cycle.service'
 
 import { Title } from '@angular/platform-browser'
+import { share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-form-list',
@@ -41,6 +42,10 @@ export class FormListComponent implements OnInit {
 
   getEvaluationCycles(): void {
     this.cycleService.getCycles().subscribe(cycles => this.cycles = cycles)
+  }
+
+  deactivateEvaluationModel(model: EvaluationModel): void {
+    this.modelService.deactivateEvaluationModel(model.id).subscribe(model => console.log(model))
   }
 
   deleteEvaluationModel(mod: EvaluationModel | number): void {

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { EvaluationCycle } from '../../classes/evaluation-cycle'
 import { EvaluationCycleService } from '../../services/evaluation-cycle.service'
 import { Title } from '@angular/platform-browser'
-import { Subject } from 'rxjs'
 
 @Component({
   selector: 'app-create-evaluation-cycle',
