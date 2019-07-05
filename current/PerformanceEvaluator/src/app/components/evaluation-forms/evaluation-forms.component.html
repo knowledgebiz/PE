@@ -1,5 +1,5 @@
 <div class="content" *ngIf="modelCompetencyRelations && modelObjectiveRelations && competencies && objectives">
-    <h4>Evaluation Form: {{model.model}}</h4>
+    <h4>Evaluation Form: {{modelTitle}}</h4>
   <br>
   <form id="register">
       
@@ -55,8 +55,9 @@
           <!-- {{competencies[i].id_competencies}} -->
         
     </div>
-      
-    <button (click)="createEvaluation()" type="submit" class="btn btn-primary" >Submit</button>
+    <div *ngIf="!isPreview" >
+      <button (click)="createEvaluation()" type="submit" class="btn btn-primary" >Submit</button>
+    </div>
     <br><br>
   </form>
 </div>

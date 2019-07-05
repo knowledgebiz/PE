@@ -28,6 +28,18 @@ export class CreateEvaluationCycleComponent implements OnInit {
   }
 
   createEvaluationCycle(startDate: Date, endDate: Date): void {
+    let dateStart = new Date(startDate)
+    let dateEnd = new Date(endDate)
+
+    console.log(dateStart < dateEnd)
+
+    if (isNaN(dateStart.getTime()) || isNaN(dateEnd.getTime())) {
+      return window.alert('Invalid date')
+    }
+    if(dateStart >= dateEnd){
+      return window.alert('The cycle cannot end before it has started, nor can it end in the same day.')
+    }
+    
     this.cycleService.addCycle( {startDate, endDate } as EvaluationCycle ).subscribe(cycle => this.cycles.push(cycle))
     window.location.reload()
   }
@@ -36,6 +48,18 @@ export class CreateEvaluationCycleComponent implements OnInit {
   }
 
   updateEvaluationCycle(id: number, startDate: Date, endDate: Date): void {
+
+    let dateStart = new Date(startDate)
+    let dateEnd = new Date(endDate)
+
+    console.log(dateStart < dateEnd)
+
+    if (isNaN(dateStart.getTime()) || isNaN(dateEnd.getTime())) {
+      return window.alert('Invalid date')
+    }
+    if(dateStart >= dateEnd){
+      return window.alert('The cycle cannot end before it has started, nor can it end in the same day.')
+    }
     this.cycleService.updateCycle( {id, startDate, endDate } as EvaluationCycle).subscribe(cycle => console.log(cycle))
   }
 

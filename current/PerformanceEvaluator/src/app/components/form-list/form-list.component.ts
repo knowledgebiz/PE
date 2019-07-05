@@ -30,6 +30,7 @@ export class FormListComponent implements OnInit {
   ngOnInit() {
     this.setTitle()
     this.getEvaluationModels()
+    this.getEvaluationCycles()
   }
 
   setTitle () {

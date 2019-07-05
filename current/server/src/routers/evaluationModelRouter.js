@@ -9,6 +9,7 @@ router.get('/evaluationModel', async (req, res) => {
 
     try{
         const errMessage = 'Evaluation model not found'
+        console.log(req.query.idCycle)
         if (req.query.active && req.query.active == 1) {
             const response = await EvaluationModel.findOne( { where: { active: 1 } } )
             if (response) {
@@ -16,7 +17,7 @@ router.get('/evaluationModel', async (req, res) => {
             }
             return res.status(404).send(errMessage)
         }
-        if (!req.query.model && !req.query.id){
+        if (!req.query.model && !req.query.id && !req.query.idCycle){
             const response = await EvaluationModel.findAll()
             if (response[0]){
                 return res.send(response)
@@ -37,7 +38,8 @@ router.get('/evaluationModel', async (req, res) => {
             }
             return res.status(404).send(errMessage)
         }
-        const response = await EvaluationModel.findOne( { where: { id_evaluation_cycles: req.body.idCycle }} )
+        
+        const response = await EvaluationModel.findOne( { where: { id_evaluation_cycles: req.query.idCycle }} )
         if (response) {
             return res.send(response)
         }

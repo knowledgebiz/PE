@@ -1,8 +1,8 @@
 <div class="content">
-  <label>Start Date: <input type="date" #startDate/></label><br>
-  <label>End Date: <input type="date" #endDate/></label><br>
+  <label>Start Date: <input type="date" #startDate class="rounded border border-primary" /></label><br>
+  <label>End Date: <input type="date" #endDate class="rounded border border-primary"/></label><br>
   <button class="btn btn-primary" (click)="createEvaluationCycle(startDate.value, endDate.value)">Create Evaluation Cycle</button>
-  
+  <br><br>
   <div *ngIf="cycles || cycle" class="table-responsive">
     <h4>List of Evaluation Cycles:</h4><br>
     <table class="table table-hover table-bordered" width="100%">
@@ -17,8 +17,8 @@
     </thead>
       <tr *ngFor="let cycle of cycles">
         <th scope="row"> {{cycle.id}} </th>
-        <td> <input #tableStartDate [ngStyle]="{ 'background-color': 'transparent', 'text-overflow': 'string','border':'none' }" [(ngModel)]="cycle.start_date" [disabled]="!cycle.isEditable "> </td> 
-        <td> <input #tableEndDate [ngStyle]="{ 'background-color': 'transparent', 'border':'none' }" [(ngModel)]="cycle.end_date" [disabled]="!cycle.isEditable "></td> 
+        <td> <input size="10" #tableStartDate [ngStyle]="{ 'background-color': 'transparent', 'text-overflow': 'string','border':'none' }" [ngModel]="cycle.start_date | date:'dd/MM/yyyy'" (ngModelChange)="cycle.start_date = $event" [disabled]="!cycle.isEditable "> </td> 
+        <td> <input #tableEndDate [ngStyle]="{ 'background-color': 'transparent', 'border':'none' }" [ngModel]="cycle.end_date | date:'dd/MM/yyyy'" (ngModelChange)="cycle.end_date = $event" [disabled]="!cycle.isEditable "></td> 
         <td>
           <button class="btn btn-outline-primary" (click)="cycle.isEditable=!cycle.isEditable" *ngIf="!cycle.isEditable" role="button">Edit</button> 
           <button class="btn btn-outline-primary" (click)="updateEvaluationCycle(cycle.id, tableStartDate.value, tableEndDate.value);cycle.isEditable=!cycle.isEditable" *ngIf="cycle.isEditable" role="button">Save</button> 

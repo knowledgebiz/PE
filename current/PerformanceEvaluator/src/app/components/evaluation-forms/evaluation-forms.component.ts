@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Injectable } from '@angular/core'
 import { map } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http'
@@ -47,9 +47,13 @@ export class EvaluationFormsComponent implements OnInit {
   evaluation: Evaluation
   evaluations: Evaluation[]
 
-  hopethisworks: {}
+  modelTitle: string
+
+  dataToJson: []
 
   form: FormGroup
+
+  isPreview: boolean = false
 
   validator = new FormControl('', Validators.required)
 
@@ -62,6 +66,7 @@ export class EvaluationFormsComponent implements OnInit {
 
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private titleService: Title,
     // private formBuilder: FormBuilder,
@@ -74,12 +79,17 @@ export class EvaluationFormsComponent implements OnInit {
   ) { }
 
   async ngOnInit(){
+    if (this.router.url !== '/form'){
+      this.isPreview = true
+    }
     const model = await this.getEvaluationModel()
+    this.modelTitle = model.model
     this.setTitle(model.model)
     this.getModelCompetencyRelations(model.id)
     this.getModelObjectiveRelations(model.id)
     this.getObjectives(model.id)
     this.getCompetencies(model.id)
+    this.dataToJson= []
   }
 
   async getEvaluationModel() {
@@ -88,7 +98,7 @@ export class EvaluationFormsComponent implements OnInit {
       const model = await this.modelService.getEvaluationModel(idModel).toPromise()
       return model
     }
-    // this.modelService.getActiveEvaluationModel().subscribe(model => this.model = model)
+    this.modelService.getActiveEvaluationModel().subscribe(model => this.model = model)
     const model = await this.modelService.getActiveEvaluationModel().toPromise()
     return model
   }
@@ -119,6 +129,10 @@ export class EvaluationFormsComponent implements OnInit {
   }
   public setTitle (title): void {
     this.titleService.setTitle('Model: ' + title)
+  }
+
+  convertToJson() {
+
   }
 
 

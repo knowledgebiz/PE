@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, BehaviorSubject } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { retry, catchError } from 'rxjs/operators'
+import { retry, catchError, map } from 'rxjs/operators'
 import { EvaluationModel } from '../classes/evaluation-model'
 
 const httpOptions = {
@@ -43,8 +43,8 @@ export class EvaluationModelService {
     return this.http.get<EvaluationModel[]>(`${this.url}?model=${term}`)
   }
 
-  getEvaluationModelByCycle(id: any): Observable<EvaluationModel> {
-    return this.http.get<EvaluationModel>(`${this.url}?idCycle=${id}`)
+  getEvaluationModelByCycle(idCycle: any): Observable<EvaluationModel> {
+    return this.http.get<EvaluationModel>(`${this.url}?idCycle=${idCycle}`)
   }
 
   updateEvaluationModel(evaluationModel: EvaluationModel): Observable<any> {
@@ -53,7 +53,7 @@ export class EvaluationModelService {
 
   addEvaluationModel(evaluationModel: EvaluationModel): Observable<EvaluationModel> {
     this.newModel.next(evaluationModel)
-    return this.http.post<EvaluationModel>(this.url, evaluationModel, httpOptions)
+    return this.http.post<EvaluationModel>(this.url, evaluationModel, httpOptions).pipe(map((data: any) => data.json()))
   }
 
   deactivateEvaluationModel(id: any): Observable<EvaluationModel> {

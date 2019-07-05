@@ -1,40 +1,26 @@
 <div class="content">
   <label>Model Title: &nbsp;</label>
-    <input #title type="text" maxlength="45"/><br>
+    <input #title type="text" class="form-control" maxlength="45"/><br>
 
   <label>Evaluation Cycle:&nbsp;</label>
-  <select #evaluationCycle>
-    <option *ngFor="let cycle of cycles" [value]="cycle.id">{{cycle.start_date}} to {{cycle.end_date}} </option>
-  </select>
+  <select #evaluationCycle class="rounded border border-primary">
+    <option *ngFor="let cycle of cycles" [value]="cycle.id">{{cycle.start_date | date:"dd/MM/yyyy"}} to {{cycle.end_date | date:"dd/MM/yyyy"}} </option>
+  </select><br><br>
 
   <div name="Objectives">
-    <label># of objectives
-      <input type="number" onkeydown="return false" min="1" max="{{objectives.length}}" value="1" #numberObjectives>
-      <button (click)="showObjectives = true">Submit</button>
-    </label>
-    <div *ngIf="showObjectives">
-      <div *ngFor="let item of ' '.repeat(numberObjectives.value).split(''); let i = index">
-        <select #objectiveToAdd id="objective{{i}}" [value]="objectives[i].id">
-          <option *ngFor="let objective of objectives" id="{{objective.id}}" [value]="objective.id">{{objective.objective}}</option>
-        </select>
-      </div>
-    </div>
-  </div>
+    <select #objectiveToAdd class="form-control">
+      <option *ngFor="let objective of objectives" id="{{objective.id}}" [value]="objective.id">{{objective.objective}}</option>
+    </select>
+    <button (click)="addObjective(objectiveToAdd.value)" class="btn btn-primary">Add Quantitative Objective</button><script></script>
+  </div><br><br>
 
   <div name="Competencies">
-    <label># of competencies
-      <input type="number" onkeydown="return false" min="1" max="{{competencies.length}}" value="1" #numberCompetencies>
-      <button (click)="showCompetencies = true">Submit</button>
-    </label>
-    <div *ngIf="showCompetencies">
-      <div *ngFor="let item of ' '.repeat(numberCompetencies.value).split(''); let i = index">
-        <select #competencyToAdd id="competency{{i}}" [value]="competencies[i].id">
-          <option *ngFor="let competency of competencies" id="{{competency.id}}" [value]="competency.id">{{competency.competency}}</option>
-        </select>
-      </div>
-    </div>
+    <select #competencyToAdd class="form-control">
+      <option *ngFor="let competency of competencies" id="{{competency.id}}" [value]="competency.id">{{competency.competency}}</option>
+    </select><br>
+    <button (click)="addCompetency(competencyToAdd.value)" class="btn btn-primary">Add Competency</button><script></script>
   </div>
 
-  <button (click)="createEvaluationModel(title.value, evaluationCycle.value)"></button>
+  <button (click)="createEvaluationModel(title.value, evaluationCycle.value, objectives[0].id, competencies[0].id)">Create Model</button>
 
 </div>
